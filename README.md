@@ -12,5 +12,5 @@ Known issues:
 * Very slow for large data sets. Try to keep the search range limited and if you are dealing with 1000's of results the second search will take a while.
 * String searches are limited to 8 bytes for now but it does work
 
-
-<blockquote class="imgur-embed-pub" lang="en" data-id="6epNGXx"><a href="https://imgur.com/6epNGXx">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<a href="https://gyazo.com/80ce96c9f6e956701bd9395555866a4b"><img src="https://i.gyazo.com/80ce96c9f6e956701bd9395555866a4b.png" alt="Image from Gyazo" width="580"/></a>
+<a href="https://gyazo.com/a2cfd468fa1c394dbdda9dfbe7102c9e"><img src="https://i.gyazo.com/a2cfd468fa1c394dbdda9dfbe7102c9e.png" alt="Image from Gyazo" width="580"/></a>
