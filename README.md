@@ -18,4 +18,3 @@ If anyone wants to impove it feel free. It would be useful if it actually dumped
 
 <a href="https://gyazo.com/80ce96c9f6e956701bd9395555866a4b"><img src="https://i.gyazo.com/80ce96c9f6e956701bd9395555866a4b.png" alt="Image from Gyazo" width="580"/></a>
 <a href="https://gyazo.com/a2cfd468fa1c394dbdda9dfbe7102c9e"><img src="https://i.gyazo.com/a2cfd468fa1c394dbdda9dfbe7102c9e.png" alt="Image from Gyazo" width="580"/></a>
-<a href="https://gyazo.com/00d55dda530d3e5bd7eefdff392f44c6"><img src="https://i.gyazo.com/00d55dda530d3e5bd7eefdff392f44c6.png" alt="Image from Gyazo" width="580"/></a>
