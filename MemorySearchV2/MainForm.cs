@@ -225,7 +225,7 @@ namespace MemorySearchV2
         private void AddToTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (resultList.SelectedItems.Count != 1) return;
-            else if (dataType_.Text == "String") new AddEntryForm(resultList.SelectedItems[0].Text, "String (" + valBox.SelectionLength + ")").ShowDialog();
+            else if (dataType_.Text == "String") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
             else
                 new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
             if (extlvi != null)
@@ -302,12 +302,13 @@ namespace MemorySearchV2
         private void EditEntryTableMenuitem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (tableList.SelectedItems.Count != 1) return;
-            new AddEntryForm(tableList.SelectedItems[0].Text, tableList.SelectedItems[0].SubItems[1].Text, tableList.SelectedItems[0].SubItems[2].Text).ShowDialog();
+            new AddEntryForm(tableList.SelectedItems[0].Text, tableList.SelectedItems[0].SubItems[1].Text, tableList.SelectedItems[0].SubItems[3].Text, tableList.SelectedItems[0].SubItems[2].Text).ShowDialog();
             if (extlvi != null)
             {
                 tableList.SelectedItems[0].Text = extlvi.Text;
                 tableList.SelectedItems[0].SubItems[1] = extlvi.SubItems[1];
                 tableList.SelectedItems[0].SubItems[2] = extlvi.SubItems[2];
+                tableList.SelectedItems[0].SubItems[3] = extlvi.SubItems[3];
                 extlvi = null;
             }
         }

@@ -71,7 +71,7 @@ namespace MemorySearchV2.Helpers
                 }
                 else if (data_type == "String")
                 {
-                    searchSize = 8;
+                    searchSize = value.Length;
                     searchValue = Encoding.ASCII.GetBytes(value);
                 }
 
@@ -137,7 +137,7 @@ namespace MemorySearchV2.Helpers
                 if (pauseWhileSearching)
                     MainForm.xb.DebugTarget.Stop(out bool isStopped);
 
-                byte[] bytes = MainForm.xb.GetMemory2(start, length, 0x100000);
+                byte[] bytes = MainForm.xb.GetMemory2(start, length, 0x10000);
 
                 int[] badCharShift = new int[Byte.MaxValue + 1]; 
                 int lastChar = searchSize - 1;

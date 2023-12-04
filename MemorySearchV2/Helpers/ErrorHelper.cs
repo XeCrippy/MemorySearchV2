@@ -7,13 +7,13 @@ namespace MemorySearchV2.Helpers
 {
     public static class ErrorHelper
     {
-        private static readonly string logFilePath = "logs\\error_log.txt";
-        private static readonly string resultsFilePath = "logs\\search_info.txt";
+        private static readonly string logFilePath = "program_logs\\error_log.txt";
+        private static readonly string resultsFilePath = "program_logs\\search_info.txt";
 
         private static void CheckValidDirectory()
         {
             string directory = AppDomain.CurrentDomain.BaseDirectory;
-            string logDirectory = Path.Combine(directory, "logs");
+            string logDirectory = Path.Combine(directory, "program_logs");
 
             if (!Directory.Exists(logDirectory))
                 Directory.CreateDirectory(logDirectory);
@@ -32,10 +32,7 @@ namespace MemorySearchV2.Helpers
 
         public static void DisplaySearchResultsMsg(int foundMatches, long searchTimer)
         {
-            string[] lines =
-            {
-                   new string('-', 80) ,  "Successfully found : " + foundMatches + " matches" + "\nSearch Time : " + searchTimer.ToString() + " seconds"
-            };
+          
 
             long elapsedMilliseconds = searchTimer;
             int hours = (int)(elapsedMilliseconds / (1000 * 60 * 60));
@@ -44,8 +41,14 @@ namespace MemorySearchV2.Helpers
             int milliseconds = (int)(elapsedMilliseconds % 1000);
 
             string elapsedTime = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{milliseconds:D3}";
-           
-            MessageDialogBox($"Successfully found: {foundMatches} matches\n\nSearch Time: {elapsedTime}", "Search Results");
+
+            string[] lines =
+            {
+                   new string('-', 80) ,  "Successfully found : " + foundMatches + " matches" + "\nSearch Time : " + elapsedTime + " (hh:mm:ss:ms)"
+            };
+
+
+            MessageDialogBox($"[{DateTime.Now}] : Successfully found: {foundMatches} matches\n\nSearch Time: {elapsedTime}", "Search Results");
 
             LogMessages(lines, resultsFilePath);
         }
@@ -55,7 +58,7 @@ namespace MemorySearchV2.Helpers
             XtraMessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             string[] _lines =
             {
-                caption, message
+                caption, message, new string('-', 80)
             };
             LogMessages(_lines, logFilePath);
         }
