@@ -2,6 +2,8 @@
 
 This is an edited version of XeClutch's Xbox 360 Cheat Engine which can be found here https://github.com/XeClutch/Cheat-Engine-For-Xbox-360
 
+*Uses DevExpress 19.2 and xedevkit.dll. You will need them to compile. 
+
 Improvements:
 * The initial search function is ran in a Parallel.ForEach loop to utilize multiple threads. I'm not sure about the performance on lower end machines though.
 * Using boyer-moore-horspool algorithm to try to increase speed. Not sure if this is making much of a difference but it does seem faster.
