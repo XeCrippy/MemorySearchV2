@@ -133,9 +133,11 @@ namespace MemorySearchV2
                 SearchHelper.searchResults.Clear();
                 resultList.Items.Clear();
                 resultList.Items.AddRange(SearchHelper.PerformMemorySearchParallel(addrBox.Text, sizeBox.Text, valBox.Text, searchSize, searchValue, pause.Checked, splashScreenManager1).Take((int)ResultsToDisplayInput.Value).ToArray());
+
                 CloseSplash();
-                NextButton.Enabled = true;
-                SearchChangedValuesButton.Enabled = true;
+
+                NextButton.Enabled = (resultList.Items.Count != 0);
+                SearchChangedValuesButton.Enabled = (resultList.Items.Count != 0);
                 timer1.Start();
             }
             catch(Exception ex)
@@ -145,7 +147,103 @@ namespace MemorySearchV2
             }
         }
 
-       private void NextButton_Click(object sender, EventArgs e)
+        /*private void NextButton_Click(object sender, EventArgs e)
+         {
+             try
+             {
+                 if (pause.Checked)
+                     xb.DebugTarget.Stop(out bool isStopped);
+
+                 timer1.Stop();
+                 Stopwatch stopwatch = new Stopwatch();
+                 stopwatch.Start();
+                 splashScreenManager1.ShowWaitForm();
+
+                 ListView.ListViewItemCollection list = resultList.Items;
+                 ConcurrentBag<ListViewItem> itemsToAdd = new ConcurrentBag<ListViewItem>();
+
+                 int searchSize;
+                 byte[] searchValue = SearchHelper.GetSearchParameters(dataType_.Text, valBox.Text, isHex.Checked, LittleEndianBox.Checked, out searchSize);
+
+                 int found = 0;
+
+
+                 int batchSize = 100; // Set your desired batch size
+                 for (int i = 0; i < SearchHelper.searchResults.Count; i += batchSize)
+                 {
+                     var batch = SearchHelper.searchResults.Skip(i).Take(batchSize);
+                     Parallel.ForEach(batch, resultItem =>
+                     {
+                         uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
+                         byte[] buffer = xb.GetMemory2(address, (uint)searchSize);
+
+                         if (buffer.SequenceEqual(searchValue))
+                         {
+                             ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
+                             lvi.SubItems.Add((string)valBox.Text.Clone());
+                             lvi.SubItems.Add(resultItem.SubItems[2].Text);
+                             lock (itemsToAdd)
+                             {
+                                 itemsToAdd.Add(lvi);
+                             }
+                             Interlocked.Increment(ref found);
+                         }
+                         else
+                         {
+                             //Remove invalid result from the list
+                            lock (itemsToAdd)
+                            {
+                                 list.Remove(resultItem);
+                            }
+                         }
+                     });
+                 }
+
+                 var invalidResults = SearchHelper.searchResults.Where(resultItem => !resultItem.SubItems[1].Text.Contains(valBox.Text)) .ToList();
+
+                 foreach (var invalidResult in invalidResults)
+                 {
+                     list.Remove(invalidResult);
+                     SearchHelper.searchResults.Remove(invalidResult);
+                 }
+
+                 resultList.Items.Clear();
+                 resultList.Items.AddRange(itemsToAdd.Take((int)ResultsToDisplayInput.Value).ToArray());
+
+                 if (found == 0)
+                 {
+                     resultList.Items.Clear(); // Clear the list if no valid results are found
+                     NextButton.Enabled = false;
+                     SearchChangedValuesButton.Enabled = false;
+                     AcceptButton = SearchButton;
+                     SearchButton.Focus();
+                 }
+
+                 if (pause.Checked)
+                     xb.DebugTarget.Go(out bool isStopped);
+
+                 CloseSplash();
+                 stopwatch.Stop();
+                 long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+                 int hours = (int)(elapsedMilliseconds / (1000 * 60 * 60));
+                 int minutes = (int)((elapsedMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+                 int seconds = (int)((elapsedMilliseconds % (1000 * 60)) / 1000);
+                 int milliseconds = (int)(elapsedMilliseconds % 1000);
+
+                 string elapsedTime = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{milliseconds:D3}";
+
+                 ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
+                 timer1.Start();
+             }
+             catch (Exception ex)
+             {
+                 CloseSplash();
+                 ErrorHelper.Error(ex);
+             }
+         }*/
+
+        private void NextButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -158,13 +256,12 @@ namespace MemorySearchV2
                 splashScreenManager1.ShowWaitForm();
 
                 ListView.ListViewItemCollection list = resultList.Items;
-                ConcurrentBag<ListViewItem> itemsToAdd = new ConcurrentBag<ListViewItem>();
+                List<ListViewItem> itemsToAdd = new List<ListViewItem>();
 
                 int searchSize;
                 byte[] searchValue = SearchHelper.GetSearchParameters(dataType_.Text, valBox.Text, isHex.Checked, LittleEndianBox.Checked, out searchSize);
 
                 int found = 0;
-
 
                 int batchSize = 100; // Set your desired batch size
                 for (int i = 0; i < SearchHelper.searchResults.Count; i += batchSize)
@@ -191,18 +288,26 @@ namespace MemorySearchV2
                             // Remove invalid result from the list
                             lock (list)
                             {
-                                list.Remove(resultItem);
+                                itemsToAdd.Remove(resultItem);
                             }
                         }
                     });
                 }
 
-                var invalidResults = SearchHelper.searchResults.Where(resultItem => !resultItem.SubItems[1].Text.Contains(valBox.Text)) .ToList();
+                var invalidResults = SearchHelper.searchResults
+                    .Where(resultItem => !resultItem.SubItems[1].Text.Contains(valBox.Text))
+                    .ToList();
 
                 foreach (var invalidResult in invalidResults)
                 {
-                    list.Remove(invalidResult);
-                    SearchHelper.searchResults.Remove(invalidResult);
+                    lock (list)
+                    {
+                        list.Remove(invalidResult);
+                    }
+                    lock (SearchHelper.searchResults)
+                    {
+                        SearchHelper.searchResults.Remove(invalidResult);
+                    }
                 }
 
                 resultList.Items.Clear();
@@ -228,7 +333,7 @@ namespace MemorySearchV2
 
                 string elapsedTime = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{milliseconds:D3}";
 
-                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
+                ErrorHelper.MessageDialogBox($"Successfully found: {found} matches\n\nSearch Time: {elapsedTime}", "Search Results");
                 timer1.Start();
             }
             catch (Exception ex)
@@ -237,6 +342,7 @@ namespace MemorySearchV2
                 ErrorHelper.Error(ex);
             }
         }
+
 
         private void AddToTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -520,9 +626,11 @@ namespace MemorySearchV2
 
                     if (!buffer.SequenceEqual(searchValue))
                     {
+                        uint x = BitConverter.ToUInt32(buffer, 0);
+                        uint y = ConversionHelper.ReverseBytes_UInt32(x);
                         ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
-                        lvi.SubItems.Add((string)valBox.Text.Clone());
-                        lvi.SubItems.Add(resultItem.SubItems[2].Text);
+                        lvi.SubItems.Add(y.ToString());
+                        lvi.SubItems.Add(resultItem.SubItems[1].Text);
                         itemsToAdd.Add(lvi);
                         Interlocked.Increment(ref found);
                     }
@@ -554,6 +662,8 @@ namespace MemorySearchV2
                     if (found == 0)
                     {
                         resultList.Items.Clear(); // Clear the list if no valid results are found
+                        NextButton.Enabled = false;
+                        SearchChangedValuesButton.Enabled = false;
                         AcceptButton = SearchButton;
                     }
                 });
