@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using XDevkit;
 
 namespace MemorySearchV2.Helpers
@@ -31,7 +32,14 @@ namespace MemorySearchV2.Helpers
             return true;
         }
 
-        private static byte[] GetMemory1(this IXboxConsole console, uint Address, uint Length)
+        public static byte[] GetMemory(this IXboxConsole console, uint Address, uint Length)
+        {
+            byte[] Data = new byte[(int)(IntPtr)Length];
+            console.DebugTarget.GetMemory(Address, Length, Data, out uint BytesRead);
+            return Data;
+        }
+
+        private static  byte[] GetMemory1(this IXboxConsole console, uint Address, uint Length)
         {
             byte[] Data = new byte[(int)(IntPtr)Length];
             console.DebugTarget.GetMemory(Address, Length, Data, out uint BytesRead);

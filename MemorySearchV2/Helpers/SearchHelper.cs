@@ -16,7 +16,7 @@ namespace MemorySearchV2.Helpers
         private static int foundMatches;
         public static List<ListViewItem> searchResults = new List<ListViewItem>();
 
-        private static ListViewItem CreateListViewItem(uint startAddress, int matchIndex, string value)
+        public static ListViewItem CreateListViewItem(uint startAddress, int matchIndex, string value)
         {
             uint matchedAddress = startAddress + (uint)matchIndex;
 
@@ -119,6 +119,21 @@ namespace MemorySearchV2.Helpers
                 return end - start;
         }
 
+        public static byte[] PerformInitialMemoryDump(uint startAddress, uint length)
+        {
+            try
+            {
+                byte[] bytes = MainForm.xb.GetMemory2(startAddress, length, 0x10000);
+
+                return bytes;
+            }
+            catch (Exception ex)
+            {
+                ErrorHelper.Error(ex);
+                return null;
+            }
+        }
+
         public static List<ListViewItem> PerformMemorySearchParallel(string startAddressBox, string endAddressBox, string value, int searchSize, byte[] searchValue, bool pauseWhileSearching, SplashScreenManager splashScreenManager, int maxResults = int.MaxValue)
         {
             try
@@ -137,17 +152,15 @@ namespace MemorySearchV2.Helpers
                 if (pauseWhileSearching)
                     MainForm.xb.DebugTarget.Stop(out bool isStopped);
 
-                byte[] bytes = MainForm.xb.GetMemory2(start, length, 0x10000);
+                byte[] bytes = MainForm.xb.GetMemory2(start, length);
 
                 int[] badCharShift = new int[Byte.MaxValue + 1]; 
                 int lastChar = searchSize - 1;
 
                 PreprocessBadCharShift(searchSize, searchValue, badCharShift, lastChar);
-                Debug.WriteLine("pass");
 
                 // Use Parallel.ForEach to process chunks of the memory in parallel
-                Parallel.ForEach(
-                    Partitioner.Create(0, (int)length),
+                Parallel.ForEach(Partitioner.Create(0, (int)length), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }, 
                     range => SearchMemoryRange(range, bytes, searchSize, searchValue, value, maxResults, start, badCharShift));
 
                 if (pauseWhileSearching)
@@ -159,7 +172,7 @@ namespace MemorySearchV2.Helpers
                     splashScreenManager.CloseWaitForm();
                 ErrorHelper.DisplaySearchResultsMsg(foundMatches, searchTimer);
 
-                return searchResults;
+               return searchResults;
             }
             catch (Exception ex)
             {
@@ -172,7 +185,7 @@ namespace MemorySearchV2.Helpers
 
         private static void SearchMemoryRange(Tuple<int, int> range, byte[] bytes, int searchSize, byte[] searchValue, string value, int maxResults, uint start, int[] badCharShift)
         {
-            List<ListViewItem> localSearchResults = new List<ListViewItem>();
+            ConcurrentBag<ListViewItem> localSearchResults = new ConcurrentBag<ListViewItem>();
 
             for (int i = range.Item1; i < range.Item2 - searchSize;)
             {

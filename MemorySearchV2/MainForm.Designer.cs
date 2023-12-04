@@ -31,9 +31,9 @@ namespace MemorySearchV2
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.AppMenuPopup = new DevExpress.XtraBars.PopupMenu(this.components);
             this.SaveCheatTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
@@ -98,6 +98,7 @@ namespace MemorySearchV2
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
             this.splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::MemorySearchV2.WaitForm1), false, false);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SearchChangedValuesButton = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AppMenuPopup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultListMenu)).BeginInit();
@@ -504,6 +505,7 @@ namespace MemorySearchV2
             // 
             // panelControl2
             // 
+            this.panelControl2.Controls.Add(this.SearchChangedValuesButton);
             this.panelControl2.Controls.Add(this.RefreshValuesBox);
             this.panelControl2.Controls.Add(this.RefreshIntervalEdit);
             this.panelControl2.Controls.Add(this.LittleEndianBox);
@@ -528,16 +530,16 @@ namespace MemorySearchV2
             // 
             // RefreshValuesBox
             // 
-            this.RefreshValuesBox.Location = new System.Drawing.Point(38, 230);
+            this.RefreshValuesBox.Location = new System.Drawing.Point(38, 227);
             this.RefreshValuesBox.Name = "RefreshValuesBox";
             this.RefreshValuesBox.Properties.Caption = "Refresh Interval";
             this.RefreshValuesBox.Size = new System.Drawing.Size(101, 19);
-            toolTipTitleItem1.Text = "Refresh Interval Seconds";
-            toolTipItem1.LeftIndent = 6;
-            toolTipItem1.Text = "This will update the current values in the cheat table similar to cheat engine. ";
-            superToolTip1.Items.Add(toolTipTitleItem1);
-            superToolTip1.Items.Add(toolTipItem1);
-            this.RefreshValuesBox.SuperTip = superToolTip1;
+            toolTipTitleItem2.Text = "Refresh Interval Seconds";
+            toolTipItem2.LeftIndent = 6;
+            toolTipItem2.Text = "This will update the current values in the cheat table similar to cheat engine. ";
+            superToolTip2.Items.Add(toolTipTitleItem2);
+            superToolTip2.Items.Add(toolTipItem2);
+            this.RefreshValuesBox.SuperTip = superToolTip2;
             this.RefreshValuesBox.TabIndex = 46;
             this.RefreshValuesBox.CheckedChanged += new System.EventHandler(this.RefreshValuesBox_CheckedChanged);
             // 
@@ -548,7 +550,7 @@ namespace MemorySearchV2
             0,
             0,
             0});
-            this.RefreshIntervalEdit.Location = new System.Drawing.Point(145, 229);
+            this.RefreshIntervalEdit.Location = new System.Drawing.Point(145, 226);
             this.RefreshIntervalEdit.MenuManager = this.ribbonControl1;
             this.RefreshIntervalEdit.Name = "RefreshIntervalEdit";
             this.RefreshIntervalEdit.Properties.Appearance.Options.UseTextOptions = true;
@@ -570,7 +572,7 @@ namespace MemorySearchV2
             // 
             // LittleEndianBox
             // 
-            this.LittleEndianBox.Location = new System.Drawing.Point(141, 141);
+            this.LittleEndianBox.Location = new System.Drawing.Point(141, 108);
             this.LittleEndianBox.Name = "LittleEndianBox";
             this.LittleEndianBox.Properties.Caption = "Little Endian";
             this.LittleEndianBox.Size = new System.Drawing.Size(80, 19);
@@ -578,7 +580,7 @@ namespace MemorySearchV2
             // 
             // labelControl12
             // 
-            this.labelControl12.Location = new System.Drawing.Point(156, 96);
+            this.labelControl12.Location = new System.Drawing.Point(156, 63);
             this.labelControl12.Name = "labelControl12";
             this.labelControl12.Size = new System.Drawing.Size(50, 13);
             this.labelControl12.TabIndex = 27;
@@ -586,7 +588,7 @@ namespace MemorySearchV2
             // 
             // labelControl11
             // 
-            this.labelControl11.Location = new System.Drawing.Point(45, 96);
+            this.labelControl11.Location = new System.Drawing.Point(45, 63);
             this.labelControl11.Name = "labelControl11";
             this.labelControl11.Size = new System.Drawing.Size(62, 13);
             this.labelControl11.TabIndex = 26;
@@ -594,7 +596,7 @@ namespace MemorySearchV2
             // 
             // labelControl4
             // 
-            this.labelControl4.Location = new System.Drawing.Point(150, 48);
+            this.labelControl4.Location = new System.Drawing.Point(150, 15);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(60, 13);
             this.labelControl4.TabIndex = 25;
@@ -602,7 +604,7 @@ namespace MemorySearchV2
             // 
             // labelControl3
             // 
-            this.labelControl3.Location = new System.Drawing.Point(45, 48);
+            this.labelControl3.Location = new System.Drawing.Point(45, 15);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(66, 13);
             this.labelControl3.TabIndex = 24;
@@ -610,7 +612,7 @@ namespace MemorySearchV2
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(124, 70);
+            this.labelControl2.Location = new System.Drawing.Point(124, 37);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(12, 13);
             this.labelControl2.TabIndex = 23;
@@ -618,7 +620,7 @@ namespace MemorySearchV2
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(23, 70);
+            this.labelControl1.Location = new System.Drawing.Point(23, 37);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(12, 13);
             this.labelControl1.TabIndex = 22;
@@ -626,7 +628,7 @@ namespace MemorySearchV2
             // 
             // pause
             // 
-            this.pause.Location = new System.Drawing.Point(38, 200);
+            this.pause.Location = new System.Drawing.Point(38, 197);
             this.pause.Name = "pause";
             this.pause.Properties.Caption = "Pause While Searching";
             this.pause.Size = new System.Drawing.Size(141, 19);
@@ -634,7 +636,7 @@ namespace MemorySearchV2
             // 
             // isHex
             // 
-            this.isHex.Location = new System.Drawing.Point(38, 141);
+            this.isHex.Location = new System.Drawing.Point(38, 108);
             this.isHex.Name = "isHex";
             this.isHex.Properties.Caption = "Search Hex";
             this.isHex.Size = new System.Drawing.Size(75, 19);
@@ -642,16 +644,16 @@ namespace MemorySearchV2
             // 
             // NextButton
             // 
-            this.NextButton.Location = new System.Drawing.Point(145, 171);
+            this.NextButton.Location = new System.Drawing.Point(141, 138);
             this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(76, 23);
+            this.NextButton.Size = new System.Drawing.Size(80, 23);
             this.NextButton.TabIndex = 20;
             this.NextButton.Text = "Next";
             this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
             // 
             // SearchButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(38, 171);
+            this.SearchButton.Location = new System.Drawing.Point(38, 138);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(80, 23);
             this.SearchButton.TabIndex = 19;
@@ -660,7 +662,7 @@ namespace MemorySearchV2
             // 
             // dataType_
             // 
-            this.dataType_.Location = new System.Drawing.Point(141, 115);
+            this.dataType_.Location = new System.Drawing.Point(141, 82);
             this.dataType_.Name = "dataType_";
             this.dataType_.Properties.Appearance.Options.UseTextOptions = true;
             this.dataType_.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -678,7 +680,7 @@ namespace MemorySearchV2
             // 
             // valBox
             // 
-            this.valBox.Location = new System.Drawing.Point(38, 115);
+            this.valBox.Location = new System.Drawing.Point(38, 82);
             this.valBox.Name = "valBox";
             this.valBox.Properties.Appearance.Options.UseTextOptions = true;
             this.valBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -687,7 +689,7 @@ namespace MemorySearchV2
             // 
             // sizeBox
             // 
-            this.sizeBox.Location = new System.Drawing.Point(141, 67);
+            this.sizeBox.Location = new System.Drawing.Point(141, 34);
             this.sizeBox.Name = "sizeBox";
             this.sizeBox.Properties.Appearance.Options.UseTextOptions = true;
             this.sizeBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -698,7 +700,7 @@ namespace MemorySearchV2
             // 
             // addrBox
             // 
-            this.addrBox.Location = new System.Drawing.Point(38, 67);
+            this.addrBox.Location = new System.Drawing.Point(38, 34);
             this.addrBox.Name = "addrBox";
             this.addrBox.Properties.Appearance.Options.UseTextOptions = true;
             this.addrBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -753,6 +755,15 @@ namespace MemorySearchV2
             // 
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // SearchChangedValuesButton
+            // 
+            this.SearchChangedValuesButton.Location = new System.Drawing.Point(38, 167);
+            this.SearchChangedValuesButton.Name = "SearchChangedValuesButton";
+            this.SearchChangedValuesButton.Size = new System.Drawing.Size(183, 23);
+            this.SearchChangedValuesButton.TabIndex = 47;
+            this.SearchChangedValuesButton.Text = "Search only changed values";
+            this.SearchChangedValuesButton.Click += new System.EventHandler(this.SearchChangedValuesButton_Click);
             // 
             // MainForm
             // 
@@ -875,6 +886,7 @@ namespace MemorySearchV2
         private DevExpress.XtraBars.BarButtonItem LoadTableButtonItem;
         private DevExpress.XtraBars.BarCheckItem AutoConnect;
         private System.Windows.Forms.Timer timer1;
+        private DevExpress.XtraEditors.SimpleButton SearchChangedValuesButton;
     }
 }
 

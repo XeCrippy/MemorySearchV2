@@ -59,7 +59,12 @@ namespace MemorySearchV2.ExtraForms
             "UShort",
             "UInt",
             "ULong",
-            "Float"});
+            "Float",
+            "String",
+            "Assembly",
+            "UShortLittleEndian",
+            "UIntLittleEndian",
+            "ULongLittleEndian"});
             this.TypeBox.Size = new System.Drawing.Size(100, 20);
             this.TypeBox.TabIndex = 24;
             // 
@@ -113,7 +118,7 @@ namespace MemorySearchV2.ExtraForms
             this.AddressBox.Name = "AddressBox";
             this.AddressBox.Properties.Appearance.Options.UseTextOptions = true;
             this.AddressBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.AddressBox.Properties.MaxLength = 8;
+            this.AddressBox.Properties.MaxLength = 10;
             this.AddressBox.Properties.NullValuePrompt = "Ex: 0x82000000";
             this.AddressBox.Size = new System.Drawing.Size(100, 20);
             this.AddressBox.TabIndex = 18;
@@ -147,7 +152,7 @@ namespace MemorySearchV2.ExtraForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(201, 156);
+            this.ClientSize = new System.Drawing.Size(201, 154);
             this.Controls.Add(this.labelControl4);
             this.Controls.Add(this.valueBox);
             this.Controls.Add(this.TypeBox);
