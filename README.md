@@ -12,7 +12,6 @@ Improvements:
   
 Known issues:
 * Very slow for large data sets. Try to keep the search range limited and if you are dealing with 1000's of results the second search will take a while.
-* String searches are limited to 8 bytes for now but it does work
 * Certain memory regions don't seem to read but I could be wrong
 * Definitely better if you have an idea of the memory range you're looking for.
 
