@@ -1,0 +1,38 @@
+﻿[
+  {
+    "Address": "0x833897D8",
+    "Description": "pistol ammo",
+    "Type": "USHORT",
+    "Value": "1171"
+  },
+  {
+    "Address": "0x82112048",
+    "Description": "InfAmmo(off=0x396BFFFF on= 0x396B0000",
+    "Type": "ASSEMBLY",
+    "Value": "396BFFFF"
+  },
+  {
+    "Address": "0x839C8FB6",
+    "Description": "health",
+    "Type": "USHORT",
+    "Value": "32241"
+  },
+  {
+    "Address": "0x83389870",
+    "Description": "",
+    "Type": "USHORT",
+    "Value": "61"
+  },
+  {
+    "Address": "0x8373A024",
+    "Description": "armor",
+    "Type": "USHORT",
+    "Value": "61"
+  },
+  {
+    "Address": "0x833897DE",
+    "Description": "rockets",
+    "Type": "USHORT",
+    "Value": "3"
+  }
+]

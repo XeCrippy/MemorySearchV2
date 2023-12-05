@@ -34,13 +34,13 @@ namespace MemorySearchV2
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
             DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem4 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem4 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem5 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.SuperToolTip superToolTip5 = new DevExpress.Utils.SuperToolTip();
@@ -48,6 +48,10 @@ namespace MemorySearchV2
             DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
             DevExpress.Utils.SuperToolTip superToolTip6 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem7 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.SuperToolTip superToolTip7 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem8 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem5 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem9 = new DevExpress.Utils.ToolTipTitleItem();
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.AppMenuPopup = new DevExpress.XtraBars.PopupMenu(this.components);
             this.SaveCheatTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
@@ -67,6 +71,7 @@ namespace MemorySearchV2
             this.SaveTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.LoadTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.AutoConnect = new DevExpress.XtraBars.BarCheckItem();
+            this.ConnectCheck = new DevExpress.XtraBars.BarCheckItem();
             this.resultList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -113,6 +118,8 @@ namespace MemorySearchV2
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
             this.splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::MemorySearchV2.WaitForm1), false, false);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
+            this.ChunkSizeEdit = new DevExpress.XtraEditors.SpinEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AppMenuPopup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultListMenu)).BeginInit();
@@ -137,6 +144,7 @@ namespace MemorySearchV2
             ((System.ComponentModel.ISupportInitialize)(this.sizeBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.addrBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResultsToDisplayInput.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChunkSizeEdit.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControl1
@@ -162,11 +170,12 @@ namespace MemorySearchV2
             this.ManuallyAddEntryMenuItem,
             this.SaveTableButtonItem,
             this.LoadTableButtonItem,
-            this.AutoConnect});
+            this.AutoConnect,
+            this.ConnectCheck});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 18;
+            this.ribbonControl1.MaxItemId = 20;
             this.ribbonControl1.Name = "ribbonControl1";
-            this.ribbonControl1.PageHeaderItemLinks.Add(this.ConnectButton);
+            this.ribbonControl1.PageHeaderItemLinks.Add(this.ConnectCheck);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.SaveTableButtonItem);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.LoadTableButtonItem);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.AutoConnect);
@@ -197,22 +206,8 @@ namespace MemorySearchV2
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Caption = "Connect";
-            this.ConnectButton.Id = 1;
-            this.ConnectButton.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ConnectButton.ImageOptions.SvgImage")));
+            this.ConnectButton.Id = 19;
             this.ConnectButton.Name = "ConnectButton";
-            toolTipTitleItem1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage")));
-            toolTipTitleItem1.Text = "Connect";
-            toolTipItem1.LeftIndent = 6;
-            toolTipItem1.Text = "Connect to your default console in Xbox 360 Neighborhood. ";
-            toolTipTitleItem2.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage1")));
-            toolTipTitleItem2.LeftIndent = 6;
-            toolTipTitleItem2.Text = "Make sure to have an active connection from your PC to your RGH/JTAG console";
-            superToolTip1.Items.Add(toolTipTitleItem1);
-            superToolTip1.Items.Add(toolTipItem1);
-            superToolTip1.Items.Add(toolTipTitleItem2);
-            this.ConnectButton.SuperTip = superToolTip1;
-            this.ConnectButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ConnectButton_ItemClick);
             // 
             // AddToTableButtonItem
             // 
@@ -308,13 +303,13 @@ namespace MemorySearchV2
             this.SaveTableButtonItem.Id = 15;
             this.SaveTableButtonItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("SaveTableButtonItem.ImageOptions.SvgImage")));
             this.SaveTableButtonItem.Name = "SaveTableButtonItem";
-            toolTipTitleItem3.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage2")));
-            toolTipTitleItem3.Text = "Save Cheat Table";
-            toolTipItem2.LeftIndent = 6;
-            toolTipItem2.Text = "Save your cheat table to a local .json file";
-            superToolTip2.Items.Add(toolTipTitleItem3);
-            superToolTip2.Items.Add(toolTipItem2);
-            this.SaveTableButtonItem.SuperTip = superToolTip2;
+            toolTipTitleItem1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage")));
+            toolTipTitleItem1.Text = "Save Cheat Table";
+            toolTipItem1.LeftIndent = 6;
+            toolTipItem1.Text = "Save your cheat table to a local .json file";
+            superToolTip1.Items.Add(toolTipTitleItem1);
+            superToolTip1.Items.Add(toolTipItem1);
+            this.SaveTableButtonItem.SuperTip = superToolTip1;
             this.SaveTableButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.SaveTableButtonItem_ItemClick);
             // 
             // LoadTableButtonItem
@@ -323,13 +318,13 @@ namespace MemorySearchV2
             this.LoadTableButtonItem.Id = 16;
             this.LoadTableButtonItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("LoadTableButtonItem.ImageOptions.SvgImage")));
             this.LoadTableButtonItem.Name = "LoadTableButtonItem";
-            toolTipTitleItem4.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage3")));
-            toolTipTitleItem4.Text = "Load Cheat Table";
-            toolTipItem3.LeftIndent = 6;
-            toolTipItem3.Text = "Loads a cheat table from a saved file";
-            superToolTip3.Items.Add(toolTipTitleItem4);
-            superToolTip3.Items.Add(toolTipItem3);
-            this.LoadTableButtonItem.SuperTip = superToolTip3;
+            toolTipTitleItem2.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage1")));
+            toolTipTitleItem2.Text = "Load Cheat Table";
+            toolTipItem2.LeftIndent = 6;
+            toolTipItem2.Text = "Loads a cheat table from a saved file";
+            superToolTip2.Items.Add(toolTipTitleItem2);
+            superToolTip2.Items.Add(toolTipItem2);
+            this.LoadTableButtonItem.SuperTip = superToolTip2;
             this.LoadTableButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.LoadTableButtonItem_ItemClick);
             // 
             // AutoConnect
@@ -339,6 +334,24 @@ namespace MemorySearchV2
             this.AutoConnect.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("AutoConnect.ImageOptions.SvgImage")));
             this.AutoConnect.Name = "AutoConnect";
             this.AutoConnect.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.AutoConnect_CheckedChanged);
+            // 
+            // ConnectCheck
+            // 
+            this.ConnectCheck.Caption = "barCheckItem1";
+            this.ConnectCheck.Id = 18;
+            this.ConnectCheck.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ConnectCheck.ImageOptions.SvgImage")));
+            this.ConnectCheck.Name = "ConnectCheck";
+            toolTipTitleItem3.Text = "Connection:";
+            toolTipItem3.LeftIndent = 6;
+            toolTipItem3.Text = "Toggle connection to the default console set in Xbox 360 Neighborhood";
+            toolTipTitleItem4.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage2")));
+            toolTipTitleItem4.LeftIndent = 6;
+            toolTipTitleItem4.Text = "Make sure to have an active network connection from your PC to your console.";
+            superToolTip3.Items.Add(toolTipTitleItem3);
+            superToolTip3.Items.Add(toolTipItem3);
+            superToolTip3.Items.Add(toolTipTitleItem4);
+            this.ConnectCheck.SuperTip = superToolTip3;
+            this.ConnectCheck.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.ConnectCheck_CheckedChanged);
             // 
             // resultList
             // 
@@ -411,6 +424,7 @@ namespace MemorySearchV2
             this.ribbonControl1.SetPopupContextMenu(this.tableList, this.tableListMenu);
             this.tableList.ShowItemToolTips = true;
             this.tableList.Size = new System.Drawing.Size(551, 161);
+            this.tableList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.tableList.TabIndex = 0;
             this.tableList.UseCompatibleStateImageBehavior = false;
             this.tableList.View = System.Windows.Forms.View.Details;
@@ -575,7 +589,7 @@ namespace MemorySearchV2
             this.SearchChangedValuesButton.Location = new System.Drawing.Point(38, 167);
             this.SearchChangedValuesButton.Name = "SearchChangedValuesButton";
             this.SearchChangedValuesButton.Size = new System.Drawing.Size(183, 23);
-            toolTipTitleItem5.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage4")));
+            toolTipTitleItem5.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage3")));
             toolTipTitleItem5.Text = "This will search for only values that have changed since the initial search";
             superToolTip4.Items.Add(toolTipTitleItem5);
             this.SearchChangedValuesButton.SuperTip = superToolTip4;
@@ -631,7 +645,7 @@ namespace MemorySearchV2
             this.LittleEndianBox.Name = "LittleEndianBox";
             this.LittleEndianBox.Properties.Caption = "Little Endian";
             this.LittleEndianBox.Size = new System.Drawing.Size(80, 19);
-            toolTipTitleItem7.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage5")));
+            toolTipTitleItem7.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage4")));
             toolTipTitleItem7.Text = "Check this if you are searching for a value that is in reverse byte order";
             superToolTip6.Items.Add(toolTipTitleItem7);
             this.LittleEndianBox.SuperTip = superToolTip6;
@@ -816,12 +830,63 @@ namespace MemorySearchV2
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // labelControl15
+            // 
+            this.labelControl15.Location = new System.Drawing.Point(322, 78);
+            this.labelControl15.Name = "labelControl15";
+            this.labelControl15.Size = new System.Drawing.Size(186, 13);
+            this.labelControl15.TabIndex = 45;
+            this.labelControl15.Text = "Adjust Parallel Memory Chunk Size : 0x";
+            // 
+            // ChunkSizeEdit
+            // 
+            this.ChunkSizeEdit.EditValue = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.ChunkSizeEdit.Location = new System.Drawing.Point(511, 75);
+            this.ChunkSizeEdit.MenuManager = this.ribbonControl1;
+            this.ChunkSizeEdit.Name = "ChunkSizeEdit";
+            this.ChunkSizeEdit.Properties.Appearance.Options.UseTextOptions = true;
+            this.ChunkSizeEdit.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ChunkSizeEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ChunkSizeEdit.Properties.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.ChunkSizeEdit.Properties.MaxValue = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.ChunkSizeEdit.Properties.MinValue = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.ChunkSizeEdit.Size = new System.Drawing.Size(55, 20);
+            toolTipTitleItem8.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage5")));
+            toolTipTitleItem8.Text = "Warning!";
+            toolTipItem5.LeftIndent = 6;
+            toolTipItem5.Text = resources.GetString("toolTipItem5.Text");
+            toolTipTitleItem9.LeftIndent = 6;
+            toolTipTitleItem9.Text = "Default value is 0x10000 (65536)";
+            superToolTip7.Items.Add(toolTipTitleItem8);
+            superToolTip7.Items.Add(toolTipItem5);
+            superToolTip7.Items.Add(toolTipTitleItem9);
+            this.ChunkSizeEdit.SuperTip = superToolTip7;
+            this.ChunkSizeEdit.TabIndex = 44;
+            // 
             // MainForm
             // 
             this.AcceptButton = this.SearchButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 584);
+            this.Controls.Add(this.labelControl15);
             this.Controls.Add(this.labelControl14);
             this.Controls.Add(this.ResultsToDisplayInput);
             this.Controls.Add(this.panelControl2);
@@ -829,6 +894,7 @@ namespace MemorySearchV2
             this.Controls.Add(this.panelControl5);
             this.Controls.Add(this.panelControl3);
             this.Controls.Add(this.panelControl1);
+            this.Controls.Add(this.ChunkSizeEdit);
             this.Controls.Add(this.ribbonControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.IconOptions.Icon = ((System.Drawing.Icon)(resources.GetObject("MainForm.IconOptions.Icon")));
@@ -866,6 +932,7 @@ namespace MemorySearchV2
             ((System.ComponentModel.ISupportInitialize)(this.sizeBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.addrBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResultsToDisplayInput.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChunkSizeEdit.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -938,6 +1005,9 @@ namespace MemorySearchV2
         private DevExpress.XtraBars.BarCheckItem AutoConnect;
         private System.Windows.Forms.Timer timer1;
         private DevExpress.XtraEditors.SimpleButton SearchChangedValuesButton;
+        private DevExpress.XtraBars.BarCheckItem ConnectCheck;
+        private DevExpress.XtraEditors.LabelControl labelControl15;
+        private DevExpress.XtraEditors.SpinEdit ChunkSizeEdit;
     }
 }
 

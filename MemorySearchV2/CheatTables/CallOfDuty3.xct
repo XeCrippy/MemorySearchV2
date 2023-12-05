@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Address": "0x82A4E17C",
+    "Description": "Grenades (lethals)",
+    "Type": "UINT",
+    "Value": "93"
+  },
+  {
+    "Address": "0x82A4E184",
+    "Description": "Flash bang (tactical)",
+    "Type": "UINT",
+    "Value": "5"
+  },
+  {
+    "Address": "0x82A4E178",
+    "Description": "ammo-magazine",
+    "Type": "UINT",
+    "Value": "8"
+  },
+  {
+    "Address": "0x82A4E008",
+    "Description": "ammo-inventory",
+    "Type": "UINT",
+    "Value": "999"
+  },
+  {
+    "Address": "0x82A1A8F8",
+    "Description": "Gamertag",
+    "Type": "STRING",
+    "Value": "XeCrippy\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+  }
+]

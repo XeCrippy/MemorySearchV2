@@ -1,0 +1,26 @@
+[
+    {
+      "Address": "0x41910608",
+      "Description": "SCORE",
+      "Type": "UINT",
+      "Value": "155865"
+    },
+    {
+      "Address": "0x419108A8",
+      "Description": "HIGHEST SCORE",
+      "Type": "UINT",
+      "Value": "13337"
+    },
+    {
+      "Address": "0x419108E0",
+      "Description": "HIGHEST SCORE",
+      "Type": "UINT",
+      "Value": "15578"
+    },
+    {
+      "Address": "0x8231EA44",
+      "Description": "ADD SCORE",
+      "Type": "ASSEMBLY",
+      "Value": "7D291A14"
+    }
+]

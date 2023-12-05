@@ -137,6 +137,9 @@
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="CheatTables\Amped3.xct" />
+    <None Include="CheatTables\CallOfDuty3.xct" />
+    <None Include="CheatTables\Duke3D.xct" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -149,6 +152,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CheatTables\PaperBoyXBLA.xct" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

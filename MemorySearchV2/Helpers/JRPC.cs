@@ -60,6 +60,28 @@ namespace MemorySearchV2.Helpers
             return result;
         }
 
+        public static byte[] GetMemoryTest(this IXboxConsole console, uint address, uint length, uint ChunkSize = 0x10000) // you can adjust this based on search length....i think
+        {
+            byte[] result = new byte[length];
+            object lockObject = new object();
+
+            Parallel.For(0, (int)Math.Ceiling((double)length / ChunkSize), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                i =>
+                {
+                    uint offset = (uint)(i * ChunkSize);
+                    uint chunkLength = Math.Min(ChunkSize, length - offset);
+                    byte[] chunk = console.GetMemory1(address + offset, chunkLength);
+
+                    lock (lockObject)
+                    {
+                        Buffer.BlockCopy(chunk, 0, result, (int)offset, (int)chunkLength);
+                    }
+                });
+
+            console.DebugTarget.InvalidateMemoryCache(true, address, length);
+            return result;
+        }
+
         public static void Push(this byte[] InArray, out byte[] OutArray, byte Value)
         {
             OutArray = new byte[InArray.Length + 1];

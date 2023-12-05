@@ -1,0 +1,44 @@
+﻿[
+  {
+    "Address": "0x8253E3B0",
+    "Description": "In game timer",
+    "Type": "UINT",
+    "Value": "0"
+  },
+  {
+    "Address": "0x82080608",
+    "Description": "game timer breakpoint (nop to freeze ex: 60000000)",
+    "Type": "ASSEMBLY",
+    "Value": "0x60000000"
+  },
+  {
+    "Address": "0x825471E2",
+    "Description": "Lives (max 255)",
+    "Type": "BYTE",
+    "Value": "4"
+  },
+  {
+    "Address": "0x8254737C",
+    "Description": "In game score (little endian)",
+    "Type": "UINTLITTLEENDIAN",
+    "Value": "0"
+  },
+  {
+    "Address": "0x825471DA",
+    "Description": "papers",
+    "Type": "USHORT",
+    "Value": "10"
+  },
+  {
+    "Address": "0x82547384",
+    "Description": "break bonus (little endian)",
+    "Type": "USHORTLITTLEENDIAN",
+    "Value": "0"
+  },
+  {
+    "Address": "0x820A2EC4",
+    "Description": "papers breakpoint (nop for infinite)",
+    "Type": "ASSEMBLY",
+    "Value": "0x7FDF59AE"
+  }
+]

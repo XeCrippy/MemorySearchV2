@@ -65,6 +65,18 @@ namespace MemorySearchV2
         }
         #endregion
 
+        private void GetConnectionState()
+        {
+            if (activeConnection)
+            {
+                ConnectCheck.Checked = true;
+            }
+            else
+            {
+                ConnectCheck.Checked = false;
+            }
+        }
+
         private void LoadProgramSettings()
         {
             ResultsToDisplayInput.Value = (decimal)Properties.Settings.Default.ResultsToDisplay;
@@ -122,6 +134,23 @@ namespace MemorySearchV2
             else SearchButton.Enabled = true;
         }
 
+        private void ConnectCheck_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (ConnectCheck.Checked && Connect())
+            {
+                SearchButton.Enabled = true;
+            }
+            else if (ConnectCheck.Checked && !Connect())
+            {
+                ErrorHelper.ConnectionError();
+            }
+            else
+            {
+                SearchButton.Enabled = false;
+                activeConnection = false;
+            }
+        }
+
         private void SearchButton_Click(object sender, EventArgs e)
         {
             try
@@ -135,7 +164,12 @@ namespace MemorySearchV2
 
                 SearchHelper.searchResults.Clear();
                 resultList.Items.Clear();
-                resultList.Items.AddRange(SearchHelper.PerformMemorySearchParallel(addrBox.Text, sizeBox.Text, valBox.Text, searchSize, searchValue, pause.Checked, splashScreenManager1).Take((int)ResultsToDisplayInput.Value).ToArray());
+
+                uint chunk; 
+                if (uint.TryParse(ChunkSizeEdit.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out chunk))
+                    resultList.Items.AddRange(SearchHelper.PerformMemorySearchParallel(addrBox.Text, sizeBox.Text, valBox.Text, searchSize, searchValue, pause.Checked, splashScreenManager1, chunk).Take((int)ResultsToDisplayInput.Value).ToArray());
+                else 
+                    ErrorHelper.MessageDialogBox("Value for Chunk Size must be in Hexidecimal", "Chunk Size Input Error");
 
                 CloseSplash();
 
@@ -458,7 +492,7 @@ namespace MemorySearchV2
             Properties.Settings.Default.AutoConnect = AutoConnect.Checked;
         }
 
-        public void SetupRefreshTimer()
+        private void SetupRefreshTimer()
         {
             try
             {
@@ -479,6 +513,7 @@ namespace MemorySearchV2
         {
             try
             {
+                GetConnectionState();
                 SetupRefreshTimer();
             }
             catch(Exception ex)
