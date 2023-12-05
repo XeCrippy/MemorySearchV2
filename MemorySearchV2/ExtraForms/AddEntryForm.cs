@@ -8,7 +8,7 @@ namespace MemorySearchV2.ExtraForms
         public AddEntryForm(string addr = "", string description = "", string value = "", string type = "")
         {
             InitializeComponent();
-
+            AddressBox.Focus();
             AddressBox.Text = addr;
             DescriptionBox.Text = description;
             valueBox.Text = value;
@@ -28,6 +28,11 @@ namespace MemorySearchV2.ExtraForms
         private void simpleButton2_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void AddEntryForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

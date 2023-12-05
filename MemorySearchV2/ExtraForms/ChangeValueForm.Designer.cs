@@ -50,7 +50,7 @@ namespace MemorySearchV2.ExtraForms
             this.checkEdit1.Name = "checkEdit1";
             this.checkEdit1.Properties.Caption = "Little Endian";
             this.checkEdit1.Size = new System.Drawing.Size(83, 19);
-            this.checkEdit1.TabIndex = 16;
+            this.checkEdit1.TabIndex = 3;
             // 
             // simpleButton2
             // 
@@ -58,7 +58,7 @@ namespace MemorySearchV2.ExtraForms
             this.simpleButton2.Location = new System.Drawing.Point(93, 86);
             this.simpleButton2.Name = "simpleButton2";
             this.simpleButton2.Size = new System.Drawing.Size(47, 23);
-            this.simpleButton2.TabIndex = 15;
+            this.simpleButton2.TabIndex = 5;
             this.simpleButton2.Text = "Cancel";
             this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
             // 
@@ -67,7 +67,7 @@ namespace MemorySearchV2.ExtraForms
             this.simpleButton1.Location = new System.Drawing.Point(40, 86);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(47, 23);
-            this.simpleButton1.TabIndex = 14;
+            this.simpleButton1.TabIndex = 4;
             this.simpleButton1.Text = "OK";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
@@ -77,7 +77,7 @@ namespace MemorySearchV2.ExtraForms
             this.hexBox.Name = "hexBox";
             this.hexBox.Properties.Caption = "Hex";
             this.hexBox.Size = new System.Drawing.Size(47, 19);
-            this.hexBox.TabIndex = 13;
+            this.hexBox.TabIndex = 2;
             // 
             // labelControl1
             // 
@@ -94,7 +94,7 @@ namespace MemorySearchV2.ExtraForms
             this.valueBox.Properties.Appearance.Options.UseTextOptions = true;
             this.valueBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.valueBox.Size = new System.Drawing.Size(100, 20);
-            this.valueBox.TabIndex = 11;
+            this.valueBox.TabIndex = 1;
             // 
             // labelControl12
             // 
@@ -113,19 +113,21 @@ namespace MemorySearchV2.ExtraForms
             this.dataType_.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dataType_.Properties.Items.AddRange(new object[] {
-            "Byte",
-            "UShort",
-            "UInt",
-            "ULong",
-            "Float",
-            "String"});
+            "BYTE",
+            "USHORT",
+            "UINT",
+            "ULONG",
+            "FLOAT",
+            "STRING"});
             this.dataType_.Size = new System.Drawing.Size(217, 20);
-            this.dataType_.TabIndex = 28;
+            this.dataType_.TabIndex = 0;
             // 
             // ChangeValueForm
             // 
+            this.AcceptButton = this.simpleButton1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.simpleButton2;
             this.ClientSize = new System.Drawing.Size(237, 116);
             this.Controls.Add(this.labelControl12);
             this.Controls.Add(this.dataType_);

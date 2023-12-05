@@ -54,19 +54,20 @@ namespace MemorySearchV2.ExtraForms
             this.TypeBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.TypeBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.TypeBox.Properties.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.TypeBox.Properties.Items.AddRange(new object[] {
-            "Byte",
-            "UShort",
-            "UInt",
-            "ULong",
-            "Float",
-            "String",
-            "Assembly",
-            "UShortLittleEndian",
-            "UIntLittleEndian",
-            "ULongLittleEndian"});
+            "BYTE",
+            "USHORT",
+            "UINT",
+            "ULONG",
+            "FLOAT",
+            "STRING",
+            "USHORTLITTLEENDIAN",
+            "UINTLITTLEENDIAN",
+            "ULONGLITTLEENDIAN",
+            "ASSEMBLY"});
             this.TypeBox.Size = new System.Drawing.Size(100, 20);
-            this.TypeBox.TabIndex = 24;
+            this.TypeBox.TabIndex = 3;
             // 
             // simpleButton2
             // 
@@ -74,7 +75,7 @@ namespace MemorySearchV2.ExtraForms
             this.simpleButton2.Location = new System.Drawing.Point(104, 116);
             this.simpleButton2.Name = "simpleButton2";
             this.simpleButton2.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton2.TabIndex = 23;
+            this.simpleButton2.TabIndex = 5;
             this.simpleButton2.Text = "Cancel";
             this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
             // 
@@ -83,7 +84,7 @@ namespace MemorySearchV2.ExtraForms
             this.simpleButton1.Location = new System.Drawing.Point(20, 116);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton1.TabIndex = 22;
+            this.simpleButton1.TabIndex = 4;
             this.simpleButton1.Text = "OK";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
@@ -94,7 +95,7 @@ namespace MemorySearchV2.ExtraForms
             this.DescriptionBox.Properties.Appearance.Options.UseTextOptions = true;
             this.DescriptionBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.DescriptionBox.Size = new System.Drawing.Size(100, 20);
-            this.DescriptionBox.TabIndex = 21;
+            this.DescriptionBox.TabIndex = 1;
             // 
             // labelControl3
             // 
@@ -121,7 +122,7 @@ namespace MemorySearchV2.ExtraForms
             this.AddressBox.Properties.MaxLength = 10;
             this.AddressBox.Properties.NullValuePrompt = "Ex: 0x82000000";
             this.AddressBox.Size = new System.Drawing.Size(100, 20);
-            this.AddressBox.TabIndex = 18;
+            this.AddressBox.TabIndex = 0;
             // 
             // labelControl1
             // 
@@ -138,7 +139,7 @@ namespace MemorySearchV2.ExtraForms
             this.valueBox.Properties.Appearance.Options.UseTextOptions = true;
             this.valueBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.valueBox.Size = new System.Drawing.Size(100, 20);
-            this.valueBox.TabIndex = 25;
+            this.valueBox.TabIndex = 2;
             // 
             // labelControl4
             // 
@@ -150,8 +151,10 @@ namespace MemorySearchV2.ExtraForms
             // 
             // AddEntryForm
             // 
+            this.AcceptButton = this.simpleButton1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.simpleButton2;
             this.ClientSize = new System.Drawing.Size(201, 154);
             this.Controls.Add(this.labelControl4);
             this.Controls.Add(this.valueBox);
@@ -170,6 +173,7 @@ namespace MemorySearchV2.ExtraForms
             this.Name = "AddEntryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Entry";
+            this.Load += new System.EventHandler(this.AddEntryForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TypeBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DescriptionBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddressBox.Properties)).EndInit();

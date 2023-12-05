@@ -16,18 +16,6 @@ namespace MemorySearchV2.Helpers
         private static int foundMatches;
         public static List<ListViewItem> searchResults = new List<ListViewItem>();
 
-        public static ListViewItem CreateListViewItem(uint startAddress, int matchIndex, string value)
-        {
-            uint matchedAddress = startAddress + (uint)matchIndex;
-
-            ListViewItem lvi = new ListViewItem("0x" + matchedAddress.ToString("X8"));
-
-            lvi.SubItems.Add(value);
-            lvi.SubItems.Add(value);
-
-            return lvi;
-        }
-
         public static byte[] GetSearchParameters(string type, string value, bool isHex, bool LittleEndian, out int searchSize)
         {
             try
@@ -37,39 +25,39 @@ namespace MemorySearchV2.Helpers
 
                 string data_type = type;
 
-                if (data_type == "Byte")
+                if (data_type == "BYTE")
                 {
                     searchSize = 1;
                     searchValue =  new byte[] { byte.Parse(value.Replace("0x", ""), NumberStyles.HexNumber) };
                 }
-                else if (data_type == "UShort")
+                else if (data_type == "USHORT")
                 {
                     searchSize = 2;
                     if (isHex == true) searchValue = BitConverter.GetBytes(ushort.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
                     else searchValue = BitConverter.GetBytes(ushort.Parse(value));
                     if (!LittleEndian) Array.Reverse(searchValue);
                 }
-                else if (data_type == "UInt")
+                else if (data_type == "UINT")
                 {
                     searchSize = 4;
                     if (isHex) searchValue = BitConverter.GetBytes(uint.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
                     else searchValue = BitConverter.GetBytes(uint.Parse(value));
                     if (!LittleEndian) Array.Reverse(searchValue);
                 }
-                else if (data_type == "ULong")
+                else if (data_type == "ULONG")
                 {
                     searchSize = 8;
                     if (isHex) searchValue = BitConverter.GetBytes(ulong.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
                     else searchValue = BitConverter.GetBytes(ulong.Parse(value));
                     if (!LittleEndian) Array.Reverse(searchValue);
                 }
-                else if (data_type == "Float")
+                else if (data_type == "FLOAT")
                 {
                     searchSize = 4;
                     searchValue = BitConverter.GetBytes(float.Parse(value));
                     if (BitConverter.IsLittleEndian) Array.Reverse(searchValue);
                 }
-                else if (data_type == "String")
+                else if (data_type == "STRING")
                 {
                     searchSize = value.Length;
                     searchValue = Encoding.ASCII.GetBytes(value);
@@ -92,31 +80,6 @@ namespace MemorySearchV2.Helpers
 
             if (foundMatches >= maxEntries)
                 return;
-        }
-        private static bool IsHexadecimal(string input)
-        {
-            if (int.TryParse(input, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _))
-                return true;
-            else return false;
-        }
-
-        private static int[] PreprocessBadCharShift(int searchSize, byte[] searchValue, int[]badCharShift, int lastChar)
-        {
-            for (int k = 0; k < 256; k++)
-                badCharShift[k] = searchSize;
-
-            for (int k = 0; k < lastChar; k++)
-                badCharShift[searchValue[k]] = lastChar - k;
-
-            return badCharShift;
-        }
-
-        private static uint SearchLength(uint start, uint end)
-        {
-            if (start > end)
-                return start - end;
-            else
-                return end - start;
         }
 
         public static byte[] PerformInitialMemoryDump(uint startAddress, uint length)
@@ -159,7 +122,6 @@ namespace MemorySearchV2.Helpers
 
                 PreprocessBadCharShift(searchSize, searchValue, badCharShift, lastChar);
 
-                // Use Parallel.ForEach to process chunks of the memory in parallel
                 Parallel.ForEach(Partitioner.Create(0, (int)length), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }, 
                     range => SearchMemoryRange(range, bytes, searchSize, searchValue, value, maxResults, start, badCharShift));
 
@@ -183,6 +145,25 @@ namespace MemorySearchV2.Helpers
             }
         }
 
+        private static int[] PreprocessBadCharShift(int searchSize, byte[] searchValue, int[] badCharShift, int lastChar)
+        {
+            for (int k = 0; k < 256; k++)
+                badCharShift[k] = searchSize;
+
+            for (int k = 0; k < lastChar; k++)
+                badCharShift[searchValue[k]] = lastChar - k;
+
+            return badCharShift;
+        }
+
+        private static uint SearchLength(uint start, uint end)
+        {
+            if (start > end)
+                return start - end;
+            else
+                return end - start;
+        }
+
         private static void SearchMemoryRange(Tuple<int, int> range, byte[] bytes, int searchSize, byte[] searchValue, string value, int maxResults, uint start, int[] badCharShift)
         {
             ConcurrentBag<ListViewItem> localSearchResults = new ConcurrentBag<ListViewItem>();
@@ -198,7 +179,7 @@ namespace MemorySearchV2.Helpers
                 if (j < 0)
                 {
                     // Match found
-                    ListViewItem lvi = CreateListViewItem(start, matchIndex, value);
+                    ListViewItem lvi = ListViewHelper.CreateListViewItem(start, matchIndex, value);
                     localSearchResults.Add(lvi);
                     IncrementFoundMatches(maxResults);
                     i = matchIndex + searchSize; 

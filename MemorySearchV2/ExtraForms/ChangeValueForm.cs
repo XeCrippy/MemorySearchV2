@@ -12,7 +12,7 @@ namespace MemorySearchV2.ExtraForms
         public ChangeValueForm(string addr, string type, string value, bool hex = false)
         {
             InitializeComponent();
-
+            valueBox.Focus();
             Text = addr;
             valueBox.Text = value;
             hexBox.Checked = hex;
@@ -29,23 +29,23 @@ namespace MemorySearchV2.ExtraForms
                 {
                     switch (dataType_.Text)
                     {
-                        case "Byte":
+                        case "BYTE":
                             byte val = hexBox.Checked ? byte.Parse(valueBox.Text, NumberStyles.HexNumber) : byte.Parse(valueBox.Text);
                             MainForm.xb.WriteByte(address, hexBox.Checked ? byte.Parse(valueBox.Text, NumberStyles.HexNumber) : byte.Parse(valueBox.Text));
                             break;
-                        case "UShort":
+                        case "USHORT":
                             MainForm.xb.WriteUInt16(address, hexBox.Checked ? ushort.Parse(valueBox.Text, NumberStyles.HexNumber) : ushort.Parse(valueBox.Text));
                             break;
-                        case "UInt":
+                        case "UINT":
                             MainForm.xb.WriteUInt32(address, hexBox.Checked ? uint.Parse(valueBox.Text, NumberStyles.HexNumber) : uint.Parse(valueBox.Text));
                             break;
-                        case "ULong":
+                        case "ULONG":
                             MainForm.xb.WriteUInt64(address, hexBox.Checked ? ulong.Parse(valueBox.Text, NumberStyles.HexNumber) : ulong.Parse(valueBox.Text));
                             break;
-                        case "Float":
+                        case "FLOAT":
                             MainForm.xb.WriteFloat(address, hexBox.Checked ? float.Parse(valueBox.Text, NumberStyles.HexNumber) : float.Parse(valueBox.Text));
                             break;
-                        case "String":
+                        case "STRING":
                             MainForm.xb.WriteString(address, valueBox.Text);
                             break;
                         default:
@@ -57,15 +57,15 @@ namespace MemorySearchV2.ExtraForms
                 {
                     switch(dataType_.Text)
                     {
-                        case "UShort":
+                        case "USHORT":
                             ushort num  = hexBox.Checked ? ushort.Parse(valueBox.Text, NumberStyles.HexNumber) : ushort.Parse(valueBox.Text);
                             MainForm.xb.WriteUInt16(address, ConversionHelper.ReverseBytes_UInt16(num));
                             break;
-                        case "UInt":
+                        case "UINT":
                             uint num1 = hexBox.Checked ? uint.Parse(valueBox.Text, NumberStyles.HexNumber) : uint.Parse(valueBox.Text);
                             MainForm.xb.WriteUInt32(address, ConversionHelper.ReverseBytes_UInt32(num1));
                             break;
-                        case "ULong":
+                        case "ULONG":
                             ulong num2 = hexBox.Checked ? ulong.Parse(valueBox.Text, NumberStyles.HexNumber) : ulong.Parse(valueBox.Text);
                             MainForm.xb.WriteUInt64(address, ConversionHelper.ReverseBytes_UInt64(num2));
                             break;

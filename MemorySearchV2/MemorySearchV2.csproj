@@ -94,7 +94,9 @@
       <DependentUpon>ChangeValueForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ConversionHelper.cs" />
+    <Compile Include="Helpers\ListViewHelper.cs" />
     <Compile Include="Helpers\SearchHelper.cs" />
+    <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

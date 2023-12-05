@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XDevkit;
 
+/// <summary>
+/// Inspired by Xbox 360 Cheat Engine by XeClutch
+/// </summary>
 namespace MemorySearchV2
 {
     public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm
@@ -147,102 +150,11 @@ namespace MemorySearchV2
             }
         }
 
-        /*private void NextButton_Click(object sender, EventArgs e)
-         {
-             try
-             {
-                 if (pause.Checked)
-                     xb.DebugTarget.Stop(out bool isStopped);
-
-                 timer1.Stop();
-                 Stopwatch stopwatch = new Stopwatch();
-                 stopwatch.Start();
-                 splashScreenManager1.ShowWaitForm();
-
-                 ListView.ListViewItemCollection list = resultList.Items;
-                 ConcurrentBag<ListViewItem> itemsToAdd = new ConcurrentBag<ListViewItem>();
-
-                 int searchSize;
-                 byte[] searchValue = SearchHelper.GetSearchParameters(dataType_.Text, valBox.Text, isHex.Checked, LittleEndianBox.Checked, out searchSize);
-
-                 int found = 0;
-
-
-                 int batchSize = 100; // Set your desired batch size
-                 for (int i = 0; i < SearchHelper.searchResults.Count; i += batchSize)
-                 {
-                     var batch = SearchHelper.searchResults.Skip(i).Take(batchSize);
-                     Parallel.ForEach(batch, resultItem =>
-                     {
-                         uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                         byte[] buffer = xb.GetMemory2(address, (uint)searchSize);
-
-                         if (buffer.SequenceEqual(searchValue))
-                         {
-                             ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
-                             lvi.SubItems.Add((string)valBox.Text.Clone());
-                             lvi.SubItems.Add(resultItem.SubItems[2].Text);
-                             lock (itemsToAdd)
-                             {
-                                 itemsToAdd.Add(lvi);
-                             }
-                             Interlocked.Increment(ref found);
-                         }
-                         else
-                         {
-                             //Remove invalid result from the list
-                            lock (itemsToAdd)
-                            {
-                                 list.Remove(resultItem);
-                            }
-                         }
-                     });
-                 }
-
-                 var invalidResults = SearchHelper.searchResults.Where(resultItem => !resultItem.SubItems[1].Text.Contains(valBox.Text)) .ToList();
-
-                 foreach (var invalidResult in invalidResults)
-                 {
-                     list.Remove(invalidResult);
-                     SearchHelper.searchResults.Remove(invalidResult);
-                 }
-
-                 resultList.Items.Clear();
-                 resultList.Items.AddRange(itemsToAdd.Take((int)ResultsToDisplayInput.Value).ToArray());
-
-                 if (found == 0)
-                 {
-                     resultList.Items.Clear(); // Clear the list if no valid results are found
-                     NextButton.Enabled = false;
-                     SearchChangedValuesButton.Enabled = false;
-                     AcceptButton = SearchButton;
-                     SearchButton.Focus();
-                 }
-
-                 if (pause.Checked)
-                     xb.DebugTarget.Go(out bool isStopped);
-
-                 CloseSplash();
-                 stopwatch.Stop();
-                 long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-
-                 int hours = (int)(elapsedMilliseconds / (1000 * 60 * 60));
-                 int minutes = (int)((elapsedMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-                 int seconds = (int)((elapsedMilliseconds % (1000 * 60)) / 1000);
-                 int milliseconds = (int)(elapsedMilliseconds % 1000);
-
-                 string elapsedTime = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{milliseconds:D3}";
-
-                 ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
-                 timer1.Start();
-             }
-             catch (Exception ex)
-             {
-                 CloseSplash();
-                 ErrorHelper.Error(ex);
-             }
-         }*/
-
+        /// <summary>
+        /// This could still use some work
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NextButton_Click(object sender, EventArgs e)
         {
             try
@@ -326,14 +238,7 @@ namespace MemorySearchV2
                 stopwatch.Stop();
                 long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
 
-                int hours = (int)(elapsedMilliseconds / (1000 * 60 * 60));
-                int minutes = (int)((elapsedMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-                int seconds = (int)((elapsedMilliseconds % (1000 * 60)) / 1000);
-                int milliseconds = (int)(elapsedMilliseconds % 1000);
-
-                string elapsedTime = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{milliseconds:D3}";
-
-                ErrorHelper.MessageDialogBox($"Successfully found: {found} matches\n\nSearch Time: {elapsedTime}", "Search Results");
+                ErrorHelper.MessageDialogBox($"Successfully found: {found} matches\n\nSearch Time: {ConversionHelper.ElapsedTime(elapsedMilliseconds)}", "Search Results");
                 timer1.Start();
             }
             catch (Exception ex)
@@ -347,7 +252,7 @@ namespace MemorySearchV2
         private void AddToTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (resultList.SelectedItems.Count != 1) return;
-            else if (dataType_.Text == "String") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
+            else if (dataType_.Text == "string") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
             else
                 new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
             if (extlvi != null)
@@ -405,7 +310,10 @@ namespace MemorySearchV2
 
         private void LoadCheatTableMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            JsonHelper.LoadCheatTable(tableList, false);
+            if (activeConnection)
+                JsonHelper.LoadCheatTable(tableList, true);
+            else
+                JsonHelper.LoadCheatTable(tableList, false);
         }
 
         private void ChangeValueTableMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -444,7 +352,7 @@ namespace MemorySearchV2
 
         private void ClearCheatTableMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (resultList.Items.Count != 0)
+            if (tableList.Items.Count != 0)
             {
                 if (XtraMessageBox.Show("Are you sure you want to clear the current cheat table?", "Clear Results", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -471,7 +379,7 @@ namespace MemorySearchV2
         private void LoadTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (activeConnection)
-                 JsonHelper.LoadCheatTable(tableList, RefreshValuesBox.Checked);
+                 JsonHelper.LoadCheatTable(tableList, true);
             else
             {
                 timer1.Stop();
@@ -557,7 +465,7 @@ namespace MemorySearchV2
                 if (activeConnection && RefreshValuesBox.Checked)
                 {
                     timer1.Interval = (int)RefreshIntervalEdit.Value * 1000;
-                    JsonHelper.RefreshCheatTableValues(tableList);
+                    ListViewHelper.RefreshCheatTableValues(tableList);
                 }
             }
             catch(Exception ex)
@@ -616,7 +524,7 @@ namespace MemorySearchV2
 
                 int found = 0;
 
-               // int batchSize = 100; // Set your desired batch size
+
                 ConcurrentBag<ListViewItem> itemsToAdd = new ConcurrentBag<ListViewItem>();
 
                 Parallel.ForEach(SearchHelper.searchResults, resultItem =>
@@ -626,10 +534,11 @@ namespace MemorySearchV2
 
                     if (!buffer.SequenceEqual(searchValue))
                     {
-                        uint x = BitConverter.ToUInt32(buffer, 0);
-                        uint y = ConversionHelper.ReverseBytes_UInt32(x);
+                        string convertedValue = ConversionHelper.ConvertBytes(buffer, dataType_.Text, !LittleEndianBox.Checked);
+                        //uint x = BitConverter.ToUInt32(buffer, 0);
+                        //uint y = ConversionHelper.ReverseBytes_UInt32(x);
                         ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
-                        lvi.SubItems.Add(y.ToString());
+                        lvi.SubItems.Add(convertedValue);
                         lvi.SubItems.Add(resultItem.SubItems[1].Text);
                         itemsToAdd.Add(lvi);
                         Interlocked.Increment(ref found);
@@ -639,20 +548,10 @@ namespace MemorySearchV2
                         // Remove invalid result from the list
                         lock (SearchHelper.searchResults)
                         {
-                            SearchHelper.searchResults.Remove(resultItem);
+                           // SearchHelper.searchResults.Remove(resultItem);
                         }
                     }
                 });
-
-                var invalidResults = SearchHelper.searchResults.Where(resultItem => !resultItem.SubItems[1].Text.Contains(valBox.Text)).ToList();
-
-                foreach (var invalidResult in invalidResults)
-                {
-                    lock (SearchHelper.searchResults)
-                    {
-                        SearchHelper.searchResults.Remove(invalidResult);
-                    }
-                }
 
                 resultList.BeginInvoke((MethodInvoker)delegate
                 {
@@ -688,6 +587,19 @@ namespace MemorySearchV2
             catch (Exception ex)
             {
                 CloseSplash();
+                ErrorHelper.Error(ex);
+            }
+        }
+
+        private void tableList_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (tableList.SelectedItems.Count != 1) return;
+                new ChangeValueForm(tableList.SelectedItems[0].Text, tableList.SelectedItems[0].SubItems[2].Text, tableList.SelectedItems[0].SubItems[3].Text).ShowDialog();
+            }
+            catch (Exception ex)
+            {
                 ErrorHelper.Error(ex);
             }
         }

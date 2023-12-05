@@ -29,8 +29,10 @@ namespace MemorySearchV2
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.progressPanel1 = new DevExpress.XtraWaitForm.ProgressPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +54,6 @@ namespace MemorySearchV2
             this.progressPanel1.Size = new System.Drawing.Size(246, 39);
             this.progressPanel1.TabIndex = 0;
             this.progressPanel1.Text = "progressPanel1";
-            this.progressPanel1.Click += new System.EventHandler(this.progressPanel1_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -71,6 +72,10 @@ namespace MemorySearchV2
             this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 73);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // WaitForm1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,6 +88,8 @@ namespace MemorySearchV2
             this.Name = "WaitForm1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WaitForm1_FormClosing);
+            this.Load += new System.EventHandler(this.WaitForm1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -93,5 +100,6 @@ namespace MemorySearchV2
 
         private DevExpress.XtraWaitForm.ProgressPanel progressPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
