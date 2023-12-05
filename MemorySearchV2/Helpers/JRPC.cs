@@ -36,6 +36,7 @@ namespace MemorySearchV2.Helpers
         {
             byte[] Data = new byte[(int)(IntPtr)Length];
             console.DebugTarget.GetMemory(Address, Length, Data, out uint BytesRead);
+            console.DebugTarget.InvalidateMemoryCache(true, Address, Length);
             return Data;
         }
 
