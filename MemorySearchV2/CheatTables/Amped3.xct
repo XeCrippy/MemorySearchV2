@@ -17,10 +17,10 @@
       "Type": "UINT",
       "Value": "15578"
     },
-    {
-      "Address": "0x8231EA44",
-      "Description": "ADD SCORE",
-      "Type": "ASSEMBLY",
-      "Value": "7D291A14"
-    }
+  {
+    "Address": "0x8231EA44",
+    "Description": "ADD SCORE (0x392961A8 will add 25,000 each time your score changes. Adjust the value by changing the last 2 bytes, ex: 0x3929xxxx)",
+    "Type": "ASSEMBLY",
+    "Value": "7D291A14"
+  }
 ]

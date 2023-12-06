@@ -92,6 +92,71 @@ namespace MemorySearchV2.Helpers
             }
         }
 
+        public static void SaveCheatTableOnFormClose(ListView listView, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (listView.Items.Count <= 0 && listView.Items.Count <= 0)
+                {
+                    // No items, allow closing without prompt
+                    e.Cancel = false;
+                }
+                else
+                {
+                    DialogResult result = XtraMessageBox.Show("Would You Like To Save Before Closing?", "Save Cheat Table", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        JsonHelper.SaveCheatTable(listView);
+                        XtraSaveFileDialog sfd = new XtraSaveFileDialog
+                        {
+                            Title = "Save Xbox 360 Cheat Table",
+                            Filter = "Xbox 360 Cheat Table (.xct)|*.xct"
+                        };
+
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
+
+                            foreach (ListViewItem lvi in listView.Items)
+                            {
+                                Dictionary<string, string> itemDict = new Dictionary<string, string>
+                                 {
+                                      { "Address", lvi.Text },
+                                      { "Description", lvi.SubItems[1].Text },
+                                      { "Type", lvi.SubItems[2].Text },
+                                      { "Value", lvi.SubItems[3].Text }
+                                 };
+                                dataList.Add(itemDict);
+                            }
+
+                            string jsonContent = JsonConvert.SerializeObject(dataList, Formatting.Indented);
+                            File.WriteAllText(sfd.FileName, jsonContent);
+                        }
+                        else
+                        {
+                            // User canceled the save dialog, cancel the form closing
+                            e.Cancel = true;
+                        }
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                        // User chose not to save, allow closing without saving
+                        e.Cancel = false;
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        // User canceled the prompt, cancel the form closing
+                        e.Cancel = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHelper.Error(ex);
+            }
+        }
+
         public static void SaveSearchResultsShortList(ListView resultsView)
         {
             try

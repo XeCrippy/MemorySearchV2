@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -195,6 +196,165 @@ namespace MemorySearchV2.Helpers
             lock (searchResults)
             {
                 searchResults.AddRange(localSearchResults);
+            }
+        }
+
+        // there may be some redundencies here but it's working so i left it for right now
+        public static void PerformFollowUpSearches(bool pause, ListView resultList, string dataType_, string valBox, bool isHex, bool isLittleEndian, int resultsToDisplay, SplashScreenManager splashScreenManager1)
+        {
+            try
+            {
+                if (pause)
+                    MainForm.xb.DebugTarget.Stop(out bool isStopped);
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                splashScreenManager1.ShowWaitForm();
+
+                ListView.ListViewItemCollection list = resultList.Items;
+                List<ListViewItem> itemsToAdd = new List<ListViewItem>();
+
+                int searchSize;
+                byte[] searchValue = SearchHelper.GetSearchParameters(dataType_, valBox, isHex, isLittleEndian, out searchSize);
+
+                int found = 0;
+
+                string previousValue = resultList.Items[0].SubItems[1].Text;
+                int batchSize = 100; // Set your desired batch size
+                for (int i = 0; i < SearchHelper.searchResults.Count; i += batchSize)
+                {
+                    var batch = SearchHelper.searchResults.Skip(i).Take(batchSize);
+                    Parallel.ForEach(batch, resultItem =>
+                    {
+                        uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
+                        byte[] buffer = MainForm.xb.GetMemory2(address, (uint)searchSize);
+
+                        if (buffer.SequenceEqual(searchValue))
+                        {
+                            ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
+                            lvi.SubItems.Add((string)valBox.Clone());
+                            lvi.SubItems.Add(previousValue);
+                            lock (itemsToAdd)
+                            {
+                                itemsToAdd.Add(lvi);
+                            }
+                            Interlocked.Increment(ref found);
+                        }
+                        else
+                        {
+                            // Remove invalid result from the list
+                            lock (itemsToAdd)
+                            {
+                                itemsToAdd.Remove(resultItem);
+                            }
+                        }
+                    });
+                }
+
+                resultList.Items.Clear();
+                resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
+
+                if (found == 0)
+                {
+                    resultList.Items.Clear(); // Clear the list if no valid results are found
+                }
+
+                if (pause)
+                    MainForm.xb.DebugTarget.Go(out bool isStopped);
+
+                stopwatch.Stop();
+                long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+                if (splashScreenManager1.IsSplashFormVisible)
+                    splashScreenManager1.CloseWaitForm();
+
+                ErrorHelper.MessageDialogBox($"Successfully found: {found} matches\n\nSearch Time: {ConversionHelper.ElapsedTime(elapsedMilliseconds)}", "Search Results");
+            }
+            catch (Exception ex)
+            {
+                if (splashScreenManager1.IsSplashFormVisible)
+                    splashScreenManager1.CloseWaitForm();
+                ErrorHelper.Error(ex);
+            }
+        }
+
+
+        // there may be some redundencies here but it's working so i left it for right now
+        public static void PerformFollowUpSearchesForChangedValues(bool pause, ListView resultList, string dataType_,  bool isHex, bool isLittleEndian, int resultsToDisplay, SplashScreenManager splashScreenManager1)
+        {
+            try
+            {
+                if (pause)
+                    MainForm.xb.DebugTarget.Stop(out bool isStopped);
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                splashScreenManager1.ShowWaitForm();
+
+                int searchSize;
+                byte[] searchValue = SearchHelper.GetSearchParameters(dataType_, resultList.Items[0].SubItems[1].Text, isHex, isLittleEndian, out searchSize); // search checks against the value in the value column of the resultList
+
+                int found = 0;
+                
+
+                ListView.ListViewItemCollection list = resultList.Items;
+                List<ListViewItem> itemsToAdd = new List<ListViewItem>();
+                string previousValue = resultList.Items[0].SubItems[1].Text;
+
+                Parallel.ForEach(searchResults, resultItem =>
+                {
+                    uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
+                    byte[] buffer = MainForm.xb.GetMemory2(address, (uint)searchSize);
+
+                    if (!buffer.SequenceEqual(searchValue))
+                    {
+                        string convertedValue = ConversionHelper.ConvertBytes(buffer, dataType_, !isLittleEndian);
+                        ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
+                        lvi.SubItems.Add(convertedValue);
+                        lvi.SubItems.Add(previousValue);
+                        itemsToAdd.Add(lvi);
+                        Interlocked.Increment(ref found);
+                    }
+                    else
+                    {
+                        // Remove invalid result from the list
+                        lock (searchResults)
+                        {
+                            searchResults.Remove(resultItem);
+                        }
+                    }
+                });
+
+                resultList.BeginInvoke((MethodInvoker)delegate
+                {
+                    resultList.Items.Clear();
+                    resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
+
+                    if (found == 0)
+                    {
+                        resultList.Items.Clear(); // Clear the list if no valid results are found
+                        SearchHelper.searchResults.Clear();
+                        //NextButton.Enabled = false;
+                        //SearchChangedValuesButton.Enabled = false;
+                       // AcceptButton = SearchButton;
+                    }
+                });
+
+                if (pause)
+                    MainForm.xb.DebugTarget.Go(out bool isStopped);
+
+                if (splashScreenManager1.IsSplashFormVisible)
+                    splashScreenManager1.CloseWaitForm();
+
+                stopwatch.Stop();
+                long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
+            }
+            catch (Exception ex)
+            {
+                if (splashScreenManager1.IsSplashFormVisible)
+                    splashScreenManager1.CloseWaitForm();
+                ErrorHelper.Error(ex);
             }
         }
 

@@ -2,16 +2,9 @@
 using DevExpress.XtraEditors;
 using MemorySearchV2.ExtraForms;
 using MemorySearchV2.Helpers;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using XDevkit;
 
@@ -184,104 +177,24 @@ namespace MemorySearchV2
             }
         }
 
-        /// <summary>
-        /// This could still use some work
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void NextButton_Click(object sender, EventArgs e)
         {
             try
             {
-                if (pause.Checked)
-                    xb.DebugTarget.Stop(out bool isStopped);
+                timer1.Stop(); // stop the timer tick for the cheat table while searching
+                SearchHelper.PerformFollowUpSearches(pause.Checked, resultList, dataType_.Text, valBox.Text, isHex.Checked, LittleEndianBox.Checked, (int)ResultsToDisplayInput.Value, splashScreenManager1);
 
-                timer1.Stop();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                splashScreenManager1.ShowWaitForm();
-
-                ListView.ListViewItemCollection list = resultList.Items;
-                List<ListViewItem> itemsToAdd = new List<ListViewItem>();
-
-                int searchSize;
-                byte[] searchValue = SearchHelper.GetSearchParameters(dataType_.Text, valBox.Text, isHex.Checked, LittleEndianBox.Checked, out searchSize);
-
-                int found = 0;
-
-                int batchSize = 100; // Set your desired batch size
-                for (int i = 0; i < SearchHelper.searchResults.Count; i += batchSize)
-                {
-                    var batch = SearchHelper.searchResults.Skip(i).Take(batchSize);
-                    Parallel.ForEach(batch, resultItem =>
-                    {
-                        uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                        byte[] buffer = xb.GetMemory2(address, (uint)searchSize);
-
-                        if (buffer.SequenceEqual(searchValue))
-                        {
-                            ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
-                            lvi.SubItems.Add((string)valBox.Text.Clone());
-                            lvi.SubItems.Add(resultItem.SubItems[2].Text);
-                            lock (itemsToAdd)
-                            {
-                                itemsToAdd.Add(lvi);
-                            }
-                            Interlocked.Increment(ref found);
-                        }
-                        else
-                        {
-                            // Remove invalid result from the list
-                            lock (list)
-                            {
-                                itemsToAdd.Remove(resultItem);
-                            }
-                        }
-                    });
-                }
-
-                var invalidResults = SearchHelper.searchResults
-                    .Where(resultItem => !resultItem.SubItems[1].Text.Contains(valBox.Text))
-                    .ToList();
-
-                foreach (var invalidResult in invalidResults)
-                {
-                    lock (list)
-                    {
-                        list.Remove(invalidResult);
-                    }
-                    lock (SearchHelper.searchResults)
-                    {
-                        SearchHelper.searchResults.Remove(invalidResult);
-                    }
-                }
-
-                resultList.Items.Clear();
-                resultList.Items.AddRange(itemsToAdd.Take((int)ResultsToDisplayInput.Value).ToArray());
-
-                if (found == 0)
-                {
-                    resultList.Items.Clear(); // Clear the list if no valid results are found
+                if (resultList.Items.Count == 0)
                     AcceptButton = SearchButton;
-                }
-
-                if (pause.Checked)
-                    xb.DebugTarget.Go(out bool isStopped);
-
-                CloseSplash();
-                stopwatch.Stop();
-                long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-
-                ErrorHelper.MessageDialogBox($"Successfully found: {found} matches\n\nSearch Time: {ConversionHelper.ElapsedTime(elapsedMilliseconds)}", "Search Results");
-                timer1.Start();
+                NextButton.Enabled = resultList.Items.Count != 0;
+                SearchChangedValuesButton.Enabled = resultList.Items.Count != 0;
+                timer1.Start(); // start again once finished
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                CloseSplash();
                 ErrorHelper.Error(ex);
             }
         }
-
 
         private void AddToTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -426,59 +339,7 @@ namespace MemorySearchV2
             try
             {
                 SaveProgramSettings();
-                if (resultList.Items.Count <= 0 && tableList.Items.Count <= 0)
-                {
-                    // No items, allow closing without prompt
-                    e.Cancel = false;
-                }
-                else
-                {
-                    DialogResult result = XtraMessageBox.Show("Would You Like To Save Before Closing?", "Save Cheat Table", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        XtraSaveFileDialog sfd = new XtraSaveFileDialog
-                        {
-                            Title = "Save Xbox 360 Cheat Table",
-                            Filter = "Xbox 360 Cheat Table (.xct)|*.xct"
-                        };
-
-                        if (sfd.ShowDialog() == DialogResult.OK)
-                        {
-                            List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
-
-                            foreach (ListViewItem lvi in tableList.Items)
-                            {
-                                Dictionary<string, string> itemDict = new Dictionary<string, string>
-                                 {
-                                      { "Address", lvi.Text },
-                                      { "Description", lvi.SubItems[1].Text },
-                                      { "Type", lvi.SubItems[2].Text },
-                                      { "Value", lvi.SubItems[3].Text }
-                                 };
-                                 dataList.Add(itemDict);
-                            }
-
-                            string jsonContent = JsonConvert.SerializeObject(dataList, Formatting.Indented);
-                            File.WriteAllText(sfd.FileName, jsonContent); 
-                        }
-                        else
-                        {
-                            // User canceled the save dialog, cancel the form closing
-                            e.Cancel = true;
-                        }
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        // User chose not to save, allow closing without saving
-                        e.Cancel = false;
-                    }
-                    else if (result == DialogResult.Cancel)
-                    {
-                        // User canceled the prompt, cancel the form closing
-                        e.Cancel = true;
-                    }
-                }
+                JsonHelper.SaveCheatTableOnFormClose(tableList, e);
             }
             catch (Exception ex)
             {
@@ -546,82 +407,10 @@ namespace MemorySearchV2
         {
             try
             {
-                if (pause.Checked)
-                    xb.DebugTarget.Stop(out bool isStopped);
-
-                timer1.Stop();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                splashScreenManager1.ShowWaitForm();
-
-                int searchSize;
-                byte[] searchValue = SearchHelper.GetSearchParameters(dataType_.Text, resultList.Items[0].SubItems[1].Text, isHex.Checked, LittleEndianBox.Checked, out searchSize); // search checks against the value in the value column of the resultList
-
-                int found = 0;
-
-
-                ConcurrentBag<ListViewItem> itemsToAdd = new ConcurrentBag<ListViewItem>();
-
-                Parallel.ForEach(SearchHelper.searchResults, resultItem =>
-                {
-                    uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                    byte[] buffer = xb.GetMemory2(address, (uint)searchSize);
-
-                    if (!buffer.SequenceEqual(searchValue))
-                    {
-                        string convertedValue = ConversionHelper.ConvertBytes(buffer, dataType_.Text, !LittleEndianBox.Checked);
-                        //uint x = BitConverter.ToUInt32(buffer, 0);
-                        //uint y = ConversionHelper.ReverseBytes_UInt32(x);
-                        ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
-                        lvi.SubItems.Add(convertedValue);
-                        lvi.SubItems.Add(resultItem.SubItems[1].Text);
-                        itemsToAdd.Add(lvi);
-                        Interlocked.Increment(ref found);
-                    }
-                    else
-                    {
-                        // Remove invalid result from the list
-                        lock (SearchHelper.searchResults)
-                        {
-                           // SearchHelper.searchResults.Remove(resultItem);
-                        }
-                    }
-                });
-
-                resultList.BeginInvoke((MethodInvoker)delegate
-                {
-                    resultList.Items.Clear();
-                    resultList.Items.AddRange(itemsToAdd.Take((int)ResultsToDisplayInput.Value).ToArray());
-
-                    if (found == 0)
-                    {
-                        resultList.Items.Clear(); // Clear the list if no valid results are found
-                        NextButton.Enabled = false;
-                        SearchChangedValuesButton.Enabled = false;
-                        AcceptButton = SearchButton;
-                    }
-                });
-
-                if (pause.Checked)
-                    xb.DebugTarget.Go(out bool isStopped);
-
-                CloseSplash();
-                stopwatch.Stop();
-                long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-
-                int hours = (int)(elapsedMilliseconds / (1000 * 60 * 60));
-                int minutes = (int)((elapsedMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-                int seconds = (int)((elapsedMilliseconds % (1000 * 60)) / 1000);
-                int milliseconds = (int)(elapsedMilliseconds % 1000);
-
-                string elapsedTime = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{milliseconds:D3}";
-
-                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
-                timer1.Start();
+                SearchHelper.PerformFollowUpSearchesForChangedValues(pause.Checked, resultList, dataType_.Text, isHex.Checked, LittleEndianBox.Checked, (int)ResultsToDisplayInput.Value, splashScreenManager1);
             }
             catch (Exception ex)
             {
-                CloseSplash();
                 ErrorHelper.Error(ex);
             }
         }
