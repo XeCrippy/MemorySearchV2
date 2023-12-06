@@ -268,7 +268,7 @@ namespace MemorySearchV2.Helpers
                 if (splashScreenManager1.IsSplashFormVisible)
                     splashScreenManager1.CloseWaitForm();
 
-                ErrorHelper.MessageDialogBox($"Successfully found: {found} matches\n\nSearch Time: {ConversionHelper.ElapsedTime(elapsedMilliseconds)}", "Search Results");
+                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
             }
             catch (Exception ex)
             {
@@ -325,20 +325,14 @@ namespace MemorySearchV2.Helpers
                     }
                 });
 
-                resultList.BeginInvoke((MethodInvoker)delegate
-                {
-                    resultList.Items.Clear();
-                    resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
+                resultList.Items.Clear();
+                resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
 
-                    if (found == 0)
-                    {
-                        resultList.Items.Clear(); // Clear the list if no valid results are found
-                        SearchHelper.searchResults.Clear();
-                        //NextButton.Enabled = false;
-                        //SearchChangedValuesButton.Enabled = false;
-                       // AcceptButton = SearchButton;
-                    }
-                });
+                if (found == 0)
+                {
+                    resultList.Items.Clear(); // Clear the list if no valid results are found
+                    SearchHelper.searchResults.Clear();
+                }
 
                 if (pause)
                     MainForm.xb.DebugTarget.Go(out bool isStopped);
@@ -377,7 +371,7 @@ namespace MemorySearchV2.Helpers
                      return false;
                  }
              }
-             else if (dataType == "String")
+             else if (dataType == "STRING")
              {
                 return true;
              }

@@ -106,6 +106,14 @@ namespace MemorySearchV2.Helpers
             return (Int16)((value & 0x00FF) << 8 | (value & 0xFF00) >> 8);
         }
 
+        public static Int32 ReverseBytes_Int32(Int32 value)
+        {
+            return (value & 0x000000FF) << 24 |
+                (value & 0x0000FF00) << 8 |
+                (value & 0x00FF0000) >> 8 |
+                (value & 0x7F000000) >> 24;
+        }
+
         public static Int64 ReverseBytes_Int64(Int64 value)
         {
             return (value & 0x00000000000000FFL) << 56 | 
@@ -116,14 +124,6 @@ namespace MemorySearchV2.Helpers
                 (value & 0x0000FF0000000000L) >> 24 | 
                 (value & 0x00FF000000000000L) >> 40 |
                 (value & 0x7F00000000000000L) >> 56;
-        }
-
-        public static Int32 ReverseBytes_Int32(Int32 value)
-        {
-            return (value & 0x000000FF) << 24 |
-                (value & 0x0000FF00) << 8 | 
-                (value & 0x00FF0000) >> 8 |
-                (value & 0x7F000000) >> 24;
         }
 
         public static float ReverseBytes_Float(float value)

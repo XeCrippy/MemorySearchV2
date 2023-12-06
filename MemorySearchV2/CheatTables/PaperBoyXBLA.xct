@@ -34,11 +34,5 @@
     "Description": "break bonus (little endian)",
     "Type": "USHORTLITTLEENDIAN",
     "Value": "0"
-  },
-  {
-    "Address": "0x820A2EC4",
-    "Description": "papers breakpoint (nop for infinite)",
-    "Type": "ASSEMBLY",
-    "Value": "0x7FDF59AE"
   }
 ]

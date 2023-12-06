@@ -92,7 +92,7 @@ namespace MemorySearchV2.Helpers
             }
         }
 
-        public static void SaveCheatTableOnFormClose(ListView listView, FormClosingEventArgs e)
+        public static void SaveCheatTable(ListView listView, FormClosingEventArgs e)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace MemorySearchV2.Helpers
             {
                 if (resultsView.Items.Count == 0)
                 {
-                    ErrorHelper.Error("You currently don't have any results to save", "Null Entries Error");
+                    ErrorHelper.MessageDialogBox("You currently don't have any results to save", "Null Entries Error");
                     return;
                 }
 
@@ -204,7 +204,7 @@ namespace MemorySearchV2.Helpers
             {
                 if (SearchHelper.searchResults.Count == 0)
                 {
-                    ErrorHelper.Error("You currently don't have any results to save", "Null Entries Error");
+                    ErrorHelper.MessageDialogBox("You currently don't have any results to save", "Null Entries Error");
                     return;
                 }
 

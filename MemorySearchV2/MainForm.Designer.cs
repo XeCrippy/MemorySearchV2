@@ -105,8 +105,8 @@ namespace MemorySearchV2
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.pause = new DevExpress.XtraEditors.CheckEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.isHex = new DevExpress.XtraEditors.CheckEdit();
             this.NextButton = new DevExpress.XtraEditors.SimpleButton();
             this.SearchButton = new DevExpress.XtraEditors.SimpleButton();
@@ -179,7 +179,7 @@ namespace MemorySearchV2
             this.ribbonControl1.PageHeaderItemLinks.Add(this.SaveTableButtonItem);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.LoadTableButtonItem);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.AutoConnect);
-            this.ribbonControl1.Size = new System.Drawing.Size(580, 62);
+            this.ribbonControl1.Size = new System.Drawing.Size(744, 62);
             // 
             // AppMenuPopup
             // 
@@ -370,7 +370,7 @@ namespace MemorySearchV2
             this.resultList.Name = "resultList";
             this.ribbonControl1.SetPopupContextMenu(this.resultList, this.resultListMenu);
             this.resultList.ShowItemToolTips = true;
-            this.resultList.Size = new System.Drawing.Size(302, 230);
+            this.resultList.Size = new System.Drawing.Size(358, 230);
             this.resultList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.resultList.TabIndex = 1;
             this.resultList.UseCompatibleStateImageBehavior = false;
@@ -380,19 +380,19 @@ namespace MemorySearchV2
             // columnHeader1
             // 
             this.columnHeader1.Text = "Address";
-            this.columnHeader1.Width = 100;
+            this.columnHeader1.Width = 118;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Value";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader2.Width = 101;
+            this.columnHeader2.Width = 120;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Previous";
             this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader3.Width = 100;
+            this.columnHeader3.Width = 120;
             // 
             // resultListMenu
             // 
@@ -423,7 +423,7 @@ namespace MemorySearchV2
             this.tableList.Name = "tableList";
             this.ribbonControl1.SetPopupContextMenu(this.tableList, this.tableListMenu);
             this.tableList.ShowItemToolTips = true;
-            this.tableList.Size = new System.Drawing.Size(551, 161);
+            this.tableList.Size = new System.Drawing.Size(716, 161);
             this.tableList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.tableList.TabIndex = 0;
             this.tableList.UseCompatibleStateImageBehavior = false;
@@ -433,24 +433,24 @@ namespace MemorySearchV2
             // columnHeader4
             // 
             this.columnHeader4.Text = "Address";
-            this.columnHeader4.Width = 100;
+            this.columnHeader4.Width = 120;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Description";
             this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader5.Width = 250;
+            this.columnHeader5.Width = 350;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "Type";
             this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader6.Width = 100;
+            this.columnHeader6.Width = 123;
             // 
             // columnHeader7
             // 
             this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader7.Width = 100;
+            this.columnHeader7.Width = 123;
             // 
             // tableListMenu
             // 
@@ -471,7 +471,7 @@ namespace MemorySearchV2
             this.panelControl1.Controls.Add(this.resultList);
             this.panelControl1.Location = new System.Drawing.Point(12, 133);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(306, 234);
+            this.panelControl1.Size = new System.Drawing.Size(362, 234);
             this.panelControl1.TabIndex = 1;
             // 
             // panelControl3
@@ -479,7 +479,7 @@ namespace MemorySearchV2
             this.panelControl3.Controls.Add(this.tableList);
             this.panelControl3.Location = new System.Drawing.Point(12, 407);
             this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(555, 165);
+            this.panelControl3.Size = new System.Drawing.Size(720, 165);
             this.panelControl3.TabIndex = 37;
             // 
             // panelControl5
@@ -490,12 +490,12 @@ namespace MemorySearchV2
             this.panelControl5.Controls.Add(this.labelControl10);
             this.panelControl5.Location = new System.Drawing.Point(12, 376);
             this.panelControl5.Name = "panelControl5";
-            this.panelControl5.Size = new System.Drawing.Size(555, 31);
+            this.panelControl5.Size = new System.Drawing.Size(720, 31);
             this.panelControl5.TabIndex = 39;
             // 
             // labelControl13
             // 
-            this.labelControl13.Location = new System.Drawing.Point(484, 8);
+            this.labelControl13.Location = new System.Drawing.Point(644, 13);
             this.labelControl13.Name = "labelControl13";
             this.labelControl13.Size = new System.Drawing.Size(26, 13);
             this.labelControl13.TabIndex = 19;
@@ -503,7 +503,7 @@ namespace MemorySearchV2
             // 
             // labelControl8
             // 
-            this.labelControl8.Location = new System.Drawing.Point(386, 8);
+            this.labelControl8.Location = new System.Drawing.Point(520, 12);
             this.labelControl8.Name = "labelControl8";
             this.labelControl8.Size = new System.Drawing.Size(24, 13);
             this.labelControl8.TabIndex = 18;
@@ -511,7 +511,7 @@ namespace MemorySearchV2
             // 
             // labelControl9
             // 
-            this.labelControl9.Location = new System.Drawing.Point(197, 8);
+            this.labelControl9.Location = new System.Drawing.Point(272, 13);
             this.labelControl9.Name = "labelControl9";
             this.labelControl9.Size = new System.Drawing.Size(53, 13);
             this.labelControl9.TabIndex = 17;
@@ -519,7 +519,7 @@ namespace MemorySearchV2
             // 
             // labelControl10
             // 
-            this.labelControl10.Location = new System.Drawing.Point(32, 8);
+            this.labelControl10.Location = new System.Drawing.Point(5, 13);
             this.labelControl10.Name = "labelControl10";
             this.labelControl10.Size = new System.Drawing.Size(39, 13);
             this.labelControl10.TabIndex = 16;
@@ -532,12 +532,12 @@ namespace MemorySearchV2
             this.panelControl4.Controls.Add(this.labelControl5);
             this.panelControl4.Location = new System.Drawing.Point(12, 101);
             this.panelControl4.Name = "panelControl4";
-            this.panelControl4.Size = new System.Drawing.Size(306, 32);
+            this.panelControl4.Size = new System.Drawing.Size(362, 32);
             this.panelControl4.TabIndex = 40;
             // 
             // labelControl7
             // 
-            this.labelControl7.Location = new System.Drawing.Point(230, 10);
+            this.labelControl7.Location = new System.Drawing.Point(280, 10);
             this.labelControl7.Name = "labelControl7";
             this.labelControl7.Size = new System.Drawing.Size(41, 13);
             this.labelControl7.TabIndex = 18;
@@ -545,7 +545,7 @@ namespace MemorySearchV2
             // 
             // labelControl6
             // 
-            this.labelControl6.Location = new System.Drawing.Point(138, 10);
+            this.labelControl6.Location = new System.Drawing.Point(166, 10);
             this.labelControl6.Name = "labelControl6";
             this.labelControl6.Size = new System.Drawing.Size(26, 13);
             this.labelControl6.TabIndex = 17;
@@ -553,7 +553,7 @@ namespace MemorySearchV2
             // 
             // labelControl5
             // 
-            this.labelControl5.Location = new System.Drawing.Point(32, 10);
+            this.labelControl5.Location = new System.Drawing.Point(5, 10);
             this.labelControl5.Name = "labelControl5";
             this.labelControl5.Size = new System.Drawing.Size(39, 13);
             this.labelControl5.TabIndex = 16;
@@ -570,8 +570,8 @@ namespace MemorySearchV2
             this.panelControl2.Controls.Add(this.labelControl4);
             this.panelControl2.Controls.Add(this.labelControl3);
             this.panelControl2.Controls.Add(this.labelControl2);
-            this.panelControl2.Controls.Add(this.labelControl1);
             this.panelControl2.Controls.Add(this.pause);
+            this.panelControl2.Controls.Add(this.labelControl1);
             this.panelControl2.Controls.Add(this.isHex);
             this.panelControl2.Controls.Add(this.NextButton);
             this.panelControl2.Controls.Add(this.SearchButton);
@@ -579,14 +579,14 @@ namespace MemorySearchV2
             this.panelControl2.Controls.Add(this.valBox);
             this.panelControl2.Controls.Add(this.sizeBox);
             this.panelControl2.Controls.Add(this.addrBox);
-            this.panelControl2.Location = new System.Drawing.Point(322, 101);
+            this.panelControl2.Location = new System.Drawing.Point(380, 101);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(245, 266);
+            this.panelControl2.Size = new System.Drawing.Size(352, 266);
             this.panelControl2.TabIndex = 41;
             // 
             // SearchChangedValuesButton
             // 
-            this.SearchChangedValuesButton.Location = new System.Drawing.Point(38, 167);
+            this.SearchChangedValuesButton.Location = new System.Drawing.Point(92, 167);
             this.SearchChangedValuesButton.Name = "SearchChangedValuesButton";
             this.SearchChangedValuesButton.Size = new System.Drawing.Size(183, 23);
             toolTipTitleItem5.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("resource.SvgImage3")));
@@ -599,7 +599,7 @@ namespace MemorySearchV2
             // 
             // RefreshValuesBox
             // 
-            this.RefreshValuesBox.Location = new System.Drawing.Point(38, 227);
+            this.RefreshValuesBox.Location = new System.Drawing.Point(92, 226);
             this.RefreshValuesBox.Name = "RefreshValuesBox";
             this.RefreshValuesBox.Properties.Caption = "Refresh Interval";
             this.RefreshValuesBox.Size = new System.Drawing.Size(101, 19);
@@ -619,7 +619,7 @@ namespace MemorySearchV2
             0,
             0,
             0});
-            this.RefreshIntervalEdit.Location = new System.Drawing.Point(145, 226);
+            this.RefreshIntervalEdit.Location = new System.Drawing.Point(199, 226);
             this.RefreshIntervalEdit.MenuManager = this.ribbonControl1;
             this.RefreshIntervalEdit.Name = "RefreshIntervalEdit";
             this.RefreshIntervalEdit.Properties.Appearance.Options.UseTextOptions = true;
@@ -641,7 +641,7 @@ namespace MemorySearchV2
             // 
             // LittleEndianBox
             // 
-            this.LittleEndianBox.Location = new System.Drawing.Point(141, 108);
+            this.LittleEndianBox.Location = new System.Drawing.Point(195, 108);
             this.LittleEndianBox.Name = "LittleEndianBox";
             this.LittleEndianBox.Properties.Caption = "Little Endian";
             this.LittleEndianBox.Size = new System.Drawing.Size(80, 19);
@@ -653,7 +653,7 @@ namespace MemorySearchV2
             // 
             // labelControl12
             // 
-            this.labelControl12.Location = new System.Drawing.Point(156, 63);
+            this.labelControl12.Location = new System.Drawing.Point(210, 63);
             this.labelControl12.Name = "labelControl12";
             this.labelControl12.Size = new System.Drawing.Size(50, 13);
             this.labelControl12.TabIndex = 27;
@@ -661,7 +661,7 @@ namespace MemorySearchV2
             // 
             // labelControl11
             // 
-            this.labelControl11.Location = new System.Drawing.Point(45, 63);
+            this.labelControl11.Location = new System.Drawing.Point(99, 63);
             this.labelControl11.Name = "labelControl11";
             this.labelControl11.Size = new System.Drawing.Size(62, 13);
             this.labelControl11.TabIndex = 26;
@@ -669,7 +669,7 @@ namespace MemorySearchV2
             // 
             // labelControl4
             // 
-            this.labelControl4.Location = new System.Drawing.Point(150, 15);
+            this.labelControl4.Location = new System.Drawing.Point(204, 15);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(60, 13);
             this.labelControl4.TabIndex = 25;
@@ -677,7 +677,7 @@ namespace MemorySearchV2
             // 
             // labelControl3
             // 
-            this.labelControl3.Location = new System.Drawing.Point(45, 15);
+            this.labelControl3.Location = new System.Drawing.Point(99, 15);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(66, 13);
             this.labelControl3.TabIndex = 24;
@@ -685,31 +685,31 @@ namespace MemorySearchV2
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(124, 37);
+            this.labelControl2.Location = new System.Drawing.Point(178, 37);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(12, 13);
             this.labelControl2.TabIndex = 23;
             this.labelControl2.Text = "0x";
             // 
+            // pause
+            // 
+            this.pause.Location = new System.Drawing.Point(92, 198);
+            this.pause.Name = "pause";
+            this.pause.Properties.Caption = "Pause While Searching";
+            this.pause.Size = new System.Drawing.Size(128, 19);
+            this.pause.TabIndex = 21;
+            // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(23, 37);
+            this.labelControl1.Location = new System.Drawing.Point(77, 37);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(12, 13);
             this.labelControl1.TabIndex = 22;
             this.labelControl1.Text = "0x";
             // 
-            // pause
-            // 
-            this.pause.Location = new System.Drawing.Point(38, 197);
-            this.pause.Name = "pause";
-            this.pause.Properties.Caption = "Pause While Searching";
-            this.pause.Size = new System.Drawing.Size(141, 19);
-            this.pause.TabIndex = 21;
-            // 
             // isHex
             // 
-            this.isHex.Location = new System.Drawing.Point(38, 108);
+            this.isHex.Location = new System.Drawing.Point(92, 108);
             this.isHex.Name = "isHex";
             this.isHex.Properties.Caption = "Search Hex";
             this.isHex.Size = new System.Drawing.Size(75, 19);
@@ -717,7 +717,7 @@ namespace MemorySearchV2
             // 
             // NextButton
             // 
-            this.NextButton.Location = new System.Drawing.Point(141, 138);
+            this.NextButton.Location = new System.Drawing.Point(195, 138);
             this.NextButton.Name = "NextButton";
             this.NextButton.Size = new System.Drawing.Size(80, 23);
             this.NextButton.TabIndex = 20;
@@ -726,7 +726,7 @@ namespace MemorySearchV2
             // 
             // SearchButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(38, 138);
+            this.SearchButton.Location = new System.Drawing.Point(92, 138);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(80, 23);
             this.SearchButton.TabIndex = 19;
@@ -735,7 +735,7 @@ namespace MemorySearchV2
             // 
             // dataType_
             // 
-            this.dataType_.Location = new System.Drawing.Point(141, 82);
+            this.dataType_.Location = new System.Drawing.Point(195, 82);
             this.dataType_.Name = "dataType_";
             this.dataType_.Properties.Appearance.Options.UseTextOptions = true;
             this.dataType_.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -754,7 +754,7 @@ namespace MemorySearchV2
             // 
             // valBox
             // 
-            this.valBox.Location = new System.Drawing.Point(38, 82);
+            this.valBox.Location = new System.Drawing.Point(92, 82);
             this.valBox.Name = "valBox";
             this.valBox.Properties.Appearance.Options.UseTextOptions = true;
             this.valBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -763,7 +763,7 @@ namespace MemorySearchV2
             // 
             // sizeBox
             // 
-            this.sizeBox.Location = new System.Drawing.Point(141, 34);
+            this.sizeBox.Location = new System.Drawing.Point(195, 34);
             this.sizeBox.Name = "sizeBox";
             this.sizeBox.Properties.Appearance.Options.UseTextOptions = true;
             this.sizeBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -774,7 +774,7 @@ namespace MemorySearchV2
             // 
             // addrBox
             // 
-            this.addrBox.Location = new System.Drawing.Point(38, 34);
+            this.addrBox.Location = new System.Drawing.Point(92, 34);
             this.addrBox.Name = "addrBox";
             this.addrBox.Properties.Appearance.Options.UseTextOptions = true;
             this.addrBox.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -832,7 +832,7 @@ namespace MemorySearchV2
             // 
             // labelControl15
             // 
-            this.labelControl15.Location = new System.Drawing.Point(322, 78);
+            this.labelControl15.Location = new System.Drawing.Point(487, 81);
             this.labelControl15.Name = "labelControl15";
             this.labelControl15.Size = new System.Drawing.Size(186, 13);
             this.labelControl15.TabIndex = 45;
@@ -845,7 +845,7 @@ namespace MemorySearchV2
             0,
             0,
             0});
-            this.ChunkSizeEdit.Location = new System.Drawing.Point(511, 75);
+            this.ChunkSizeEdit.Location = new System.Drawing.Point(676, 78);
             this.ChunkSizeEdit.MenuManager = this.ribbonControl1;
             this.ChunkSizeEdit.Name = "ChunkSizeEdit";
             this.ChunkSizeEdit.Properties.Appearance.Options.UseTextOptions = true;
@@ -885,7 +885,7 @@ namespace MemorySearchV2
             this.AcceptButton = this.SearchButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(580, 584);
+            this.ClientSize = new System.Drawing.Size(744, 584);
             this.Controls.Add(this.labelControl15);
             this.Controls.Add(this.labelControl14);
             this.Controls.Add(this.ResultsToDisplayInput);

@@ -119,7 +119,7 @@ namespace MemorySearchV2.Helpers
                 else if (entry.Type == "ULONG") val = GetValueAsString(MainForm.xb.ReadUInt64, entry);
                 else if (entry.Type == "FLOAT") val = GetValueAsString(MainForm.xb.ReadFloat, entry);
                 else if (entry.Type == "STRING") val = MainForm.xb.ReadString(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber), 20);
-                else if (entry.Type == "USHORTLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt16(MainForm.xb.ReadUInt16(uint.Parse(entry.Address.Replace("0x", "")))).ToString();
+                else if (entry.Type == "USHORTLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt16(MainForm.xb.ReadUInt16(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
                 else if (entry.Type == "UINTLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt32(MainForm.xb.ReadUInt32(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
                 else if (entry.Type == "ULONGLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt64(MainForm.xb.ReadUInt64(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
                 else if (entry.Type == "ASSEMBLY") val = MainForm.xb.ReadUInt32(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber)).ToString("X");

@@ -58,7 +58,7 @@ namespace MemorySearchV2.Helpers
             XtraMessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             string[] _lines =
             {
-                caption, message, new string('-', 80)
+                new string('-', 75), message, caption
             };
             LogMessages(_lines, logFilePath);
         }
@@ -80,7 +80,7 @@ namespace MemorySearchV2.Helpers
             {
                 $"[{DateTime.Now}] Error in {ex.Source}: {ex.Message}", 
                 $"TargetSite: {ex.TargetSite}", 
-                $"StackTrace: {ex.StackTrace}", new string('-', 80)
+                $"StackTrace: {ex.StackTrace}", new string('-', 75)
             };
 
             File.AppendAllLines(logFileFullPath, lines);

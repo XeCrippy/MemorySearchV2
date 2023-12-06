@@ -198,8 +198,18 @@ namespace MemorySearchV2
 
         private void AddToTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (resultList.SelectedItems.Count != 1) return;
-            else if (dataType_.Text == "string") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
+            if (resultList.SelectedItems.Count == 0) return;
+            else if (resultList.SelectedItems.Count > 1)
+            {
+                for (int i = 0; i < resultList.SelectedItems.Count; i++)
+                {
+                    tableList.Items.Add(resultList.SelectedItems[i].Text);
+                    tableList.Items[i].SubItems.Add("");
+                    tableList.Items[i].SubItems.Add("");
+                    tableList.Items[i].SubItems.Add(resultList.SelectedItems[i].SubItems[1].Text);
+                }
+            }
+            else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
             else
                 new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
             if (extlvi != null)
@@ -292,9 +302,12 @@ namespace MemorySearchV2
 
         private void RemoveTableEntryMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (tableList.SelectedItems.Count != 1) return;
+            if (tableList.SelectedItems.Count == 0) return;
             if (XtraMessageBox.Show("Are you sure you want to remove this item?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                tableList.SelectedItems[0].Remove();
+                for (int i = 0; i < tableList.SelectedItems.Count; i++)
+                {
+                    tableList.SelectedItems[i].Remove();
+                }
         }
 
         private void ClearCheatTableMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -339,7 +352,7 @@ namespace MemorySearchV2
             try
             {
                 SaveProgramSettings();
-                JsonHelper.SaveCheatTableOnFormClose(tableList, e);
+                JsonHelper.SaveCheatTable(tableList, e);
             }
             catch (Exception ex)
             {
@@ -393,7 +406,7 @@ namespace MemorySearchV2
         private void resultList_DoubleClick(object sender, EventArgs e)
         {
             if (resultList.SelectedItems.Count != 1) return;
-            else if (dataType_.Text == "String") new AddEntryForm(resultList.SelectedItems[0].Text, "String (" + valBox.SelectionLength + ")").ShowDialog();
+            else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[1].Text, dataType_.Text).ShowDialog();
             else
                 new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
             if (extlvi != null)
@@ -407,7 +420,14 @@ namespace MemorySearchV2
         {
             try
             {
+                timer1.Stop(); // stop timer tick while searching
                 SearchHelper.PerformFollowUpSearchesForChangedValues(pause.Checked, resultList, dataType_.Text, isHex.Checked, LittleEndianBox.Checked, (int)ResultsToDisplayInput.Value, splashScreenManager1);
+
+                if (resultList.Items.Count == 0)
+                    AcceptButton = SearchButton;
+                NextButton.Enabled = resultList.Items.Count != 0;
+                SearchChangedValuesButton.Enabled = resultList.Items.Count != 0;
+                timer1.Start(); // start again once finished
             }
             catch (Exception ex)
             {
