@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraSplashScreen;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -26,42 +27,39 @@ namespace MemorySearchV2.Helpers
 
                 string data_type = type;
 
-                if (data_type == "BYTE")
+                switch (data_type)
                 {
-                    searchSize = 1;
-                    searchValue =  new byte[] { byte.Parse(value.Replace("0x", ""), NumberStyles.HexNumber) };
-                }
-                else if (data_type == "USHORT")
-                {
-                    searchSize = 2;
-                    if (isHex == true) searchValue = BitConverter.GetBytes(ushort.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
-                    else searchValue = BitConverter.GetBytes(ushort.Parse(value));
-                    if (!LittleEndian) Array.Reverse(searchValue);
-                }
-                else if (data_type == "UINT")
-                {
-                    searchSize = 4;
-                    if (isHex) searchValue = BitConverter.GetBytes(uint.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
-                    else searchValue = BitConverter.GetBytes(uint.Parse(value));
-                    if (!LittleEndian) Array.Reverse(searchValue);
-                }
-                else if (data_type == "ULONG")
-                {
-                    searchSize = 8;
-                    if (isHex) searchValue = BitConverter.GetBytes(ulong.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
-                    else searchValue = BitConverter.GetBytes(ulong.Parse(value));
-                    if (!LittleEndian) Array.Reverse(searchValue);
-                }
-                else if (data_type == "FLOAT")
-                {
-                    searchSize = 4;
-                    searchValue = BitConverter.GetBytes(float.Parse(value));
-                    if (BitConverter.IsLittleEndian) Array.Reverse(searchValue);
-                }
-                else if (data_type == "STRING")
-                {
-                    searchSize = value.Length;
-                    searchValue = Encoding.ASCII.GetBytes(value);
+                    case "BYTE":
+                        searchSize = 1;
+                        searchValue = new byte[] { byte.Parse(value.Replace("0x", ""), NumberStyles.HexNumber) };
+                        break;
+                    case "USHORT":
+                        searchSize = 2;
+                        if (isHex == true) searchValue = BitConverter.GetBytes(ushort.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
+                        else searchValue = BitConverter.GetBytes(ushort.Parse(value));
+                        if (!LittleEndian) Array.Reverse(searchValue);
+                        break;
+                    case "UINT":
+                        searchSize = 4;
+                        if (isHex) searchValue = BitConverter.GetBytes(uint.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
+                        else searchValue = BitConverter.GetBytes(uint.Parse(value));
+                        if (!LittleEndian) Array.Reverse(searchValue);
+                        break;
+                    case "ULONG":
+                        searchSize = 8;
+                        if (isHex) searchValue = BitConverter.GetBytes(ulong.Parse(value.Replace("0x", ""), NumberStyles.HexNumber));
+                        else searchValue = BitConverter.GetBytes(ulong.Parse(value));
+                        if (!LittleEndian) Array.Reverse(searchValue);
+                        break;
+                    case "FLOAT":
+                        searchSize = 4;
+                        searchValue = BitConverter.GetBytes(float.Parse(value));
+                        if (BitConverter.IsLittleEndian) Array.Reverse(searchValue);
+                        break;
+                    case "STRING":
+                        searchSize = value.Length;
+                        searchValue = Encoding.ASCII.GetBytes(value);
+                        break;
                 }
 
                 return searchValue;
@@ -87,7 +85,7 @@ namespace MemorySearchV2.Helpers
         {
             try
             {
-                byte[] bytes = MainForm.xb.GetMemory2(startAddress, length, 0x10000);
+                byte[] bytes = MainForm.xb.GetMemoryTest(startAddress, length, 0x10000);
 
                 return bytes;
             }
@@ -98,7 +96,7 @@ namespace MemorySearchV2.Helpers
             }
         }
 
-        public static List<ListViewItem> PerformMemorySearchParallel(string startAddressBox, string endAddressBox, string value, int searchSize, byte[] searchValue, bool pauseWhileSearching, SplashScreenManager splashScreenManager, uint ChunkSize, int maxResults = int.MaxValue)
+        public static List<ListViewItem> PerformInitialSeach(string startAddressBox, string endAddressBox, string value, int searchSize, byte[] searchValue, bool pauseWhileSearching, SplashScreenManager splashScreenManager, uint ChunkSize, int maxResults = int.MaxValue)
         {
             try
             {
@@ -144,6 +142,79 @@ namespace MemorySearchV2.Helpers
                 ErrorHelper.Error(ex);
                 return null;
             }
+        }
+
+        private static uint NextSearchStartAddress()
+        {
+            uint start;
+            uint first = uint.Parse(searchResults.First().Text.Replace("0x", ""), NumberStyles.HexNumber);
+            uint last = uint.Parse(searchResults.Last().Text.Replace("0x", ""), NumberStyles.HexNumber);
+
+            if (first < last)
+            {
+                start = uint.Parse(searchResults.First().Text.Replace("0x", ""), NumberStyles.HexNumber);
+            }
+            else 
+            {
+                start = uint.Parse(searchResults.Last().Text.Replace("0x", ""), NumberStyles.HexNumber);
+            }
+            return start;
+        }
+
+        /// <summary>
+        /// WORK IN PROGRESS
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="searchSize"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="pauseWhileSearching"></param>
+        /// <param name="splashScreenManager"></param>
+        /// <param name="ChunkSize"></param>
+        /// <param name="maxResults"></param>
+        /// <returns></returns>
+        public static List<ListViewItem> PerformSubsequentSearches(string value, int searchSize, byte[] searchValue, bool pauseWhileSearching, SplashScreenManager splashScreenManager, uint ChunkSize, int maxResults = int.MaxValue)
+        {
+            /* try
+             {
+                 Stopwatch stopwatch = new Stopwatch();
+                 splashScreenManager.ShowWaitForm();
+                 foundMatches = 0;
+                 uint length = (uint)searchResults.Count * 4;
+
+                 stopwatch.Start();
+
+                 if (pauseWhileSearching)
+                     MainForm.xb.DebugTarget.Stop(out bool isStopped);
+
+                 byte[] bytes = MainForm.xb.GetMemoryTest(NextSearchStartAddress(), length, ChunkSize);
+
+                 int[] badCharShift = new int[Byte.MaxValue + 1];
+                 int lastChar = searchSize - 1;
+
+                 PreprocessBadCharShift(searchSize, searchValue, badCharShift, lastChar);
+
+                 Parallel.ForEach(Partitioner.Create(0, (int)length), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                     range => SearchMemoryRange(range, bytes, searchSize, searchValue, value, maxResults, NextSearchStartAddress(), badCharShift));
+
+                 if (pauseWhileSearching)
+                     MainForm.xb.DebugTarget.Go(out bool isStopped);
+
+                 stopwatch.Stop();
+                 long searchTimer = stopwatch.ElapsedMilliseconds;
+                 if (splashScreenManager.IsSplashFormVisible)
+                     splashScreenManager.CloseWaitForm();
+                 ErrorHelper.DisplaySearchResultsMsg(foundMatches, searchTimer);
+
+                 return searchResults;
+             }
+             catch (Exception ex)
+             {
+                 if (splashScreenManager.IsSplashFormVisible)
+                     splashScreenManager.CloseWaitForm();
+                 ErrorHelper.Error(ex);
+                 return null;
+             }*/
+            return null;
         }
 
         private static int[] PreprocessBadCharShift(int searchSize, byte[] searchValue, int[] badCharShift, int lastChar)
@@ -220,36 +291,31 @@ namespace MemorySearchV2.Helpers
                 int found = 0;
 
                 string previousValue = resultList.Items[0].SubItems[1].Text;
-                int batchSize = 100; // Set your desired batch size
-                for (int i = 0; i < SearchHelper.searchResults.Count; i += batchSize)
+                Parallel.ForEach(searchResults, resultItem =>
                 {
-                    var batch = SearchHelper.searchResults.Skip(i).Take(batchSize);
-                    Parallel.ForEach(batch, resultItem =>
-                    {
-                        uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                        byte[] buffer = MainForm.xb.GetMemory2(address, (uint)searchSize);
+                    uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
+                    byte[] buffer = MainForm.xb.GetMemory(address, (uint)searchSize);
 
-                        if (buffer.SequenceEqual(searchValue))
+                    if (buffer.SequenceEqual(searchValue))
+                    {
+                        ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
+                        lvi.SubItems.Add((string)valBox.Clone());
+                        lvi.SubItems.Add(previousValue);
+                        lock (itemsToAdd)
                         {
-                            ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
-                            lvi.SubItems.Add((string)valBox.Clone());
-                            lvi.SubItems.Add(previousValue);
-                            lock (itemsToAdd)
-                            {
-                                itemsToAdd.Add(lvi);
-                            }
-                            Interlocked.Increment(ref found);
+                            itemsToAdd.Add(lvi);
                         }
-                        else
+                        Interlocked.Increment(ref found);
+                    }
+                    else
+                    {
+                        // Remove invalid result from the list
+                        lock (itemsToAdd)
                         {
-                            // Remove invalid result from the list
-                            lock (itemsToAdd)
-                            {
-                                itemsToAdd.Remove(resultItem);
-                            }
+                            itemsToAdd.Remove(resultItem);
                         }
-                    });
-                }
+                    }
+                });
 
                 resultList.Items.Clear();
                 resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
@@ -257,6 +323,7 @@ namespace MemorySearchV2.Helpers
                 if (found == 0)
                 {
                     resultList.Items.Clear(); // Clear the list if no valid results are found
+                    searchResults.Clear();
                 }
 
                 if (pause)
@@ -304,7 +371,7 @@ namespace MemorySearchV2.Helpers
                 Parallel.ForEach(searchResults, resultItem =>
                 {
                     uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                    byte[] buffer = MainForm.xb.GetMemory2(address, (uint)searchSize);
+                    byte[] buffer = MainForm.xb.GetMemory(address, (uint)searchSize);
 
                     if (!buffer.SequenceEqual(searchValue))
                     {
@@ -318,9 +385,9 @@ namespace MemorySearchV2.Helpers
                     else
                     {
                         // Remove invalid result from the list
-                        lock (searchResults)
+                        lock (itemsToAdd)
                         {
-                            searchResults.Remove(resultItem);
+                            itemsToAdd.Remove(resultItem);
                         }
                     }
                 });

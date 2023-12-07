@@ -160,7 +160,7 @@ namespace MemorySearchV2
 
                 uint chunk; 
                 if (uint.TryParse(ChunkSizeEdit.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out chunk))
-                    resultList.Items.AddRange(SearchHelper.PerformMemorySearchParallel(addrBox.Text, sizeBox.Text, valBox.Text, searchSize, searchValue, pause.Checked, splashScreenManager1, chunk).Take((int)ResultsToDisplayInput.Value).ToArray());
+                    resultList.Items.AddRange(SearchHelper.PerformInitialSeach(addrBox.Text, sizeBox.Text, valBox.Text, searchSize, searchValue, pause.Checked, splashScreenManager1, chunk).Take((int)ResultsToDisplayInput.Value).ToArray());
                 else 
                     ErrorHelper.MessageDialogBox("Value for Chunk Size must be in Hexidecimal", "Chunk Size Input Error");
 
@@ -181,17 +181,20 @@ namespace MemorySearchV2
         {
             try
             {
-                timer1.Stop(); // stop the timer tick for the cheat table while searching
+                timer1.Stop(); // stop timer tick while searching
                 SearchHelper.PerformFollowUpSearches(pause.Checked, resultList, dataType_.Text, valBox.Text, isHex.Checked, LittleEndianBox.Checked, (int)ResultsToDisplayInput.Value, splashScreenManager1);
 
                 if (resultList.Items.Count == 0)
                     AcceptButton = SearchButton;
+
                 NextButton.Enabled = resultList.Items.Count != 0;
                 SearchChangedValuesButton.Enabled = resultList.Items.Count != 0;
+
                 timer1.Start(); // start again once finished
             }
             catch(Exception ex)
             {
+                CloseSplash();
                 ErrorHelper.Error(ex);
             }
         }
@@ -425,8 +428,10 @@ namespace MemorySearchV2
 
                 if (resultList.Items.Count == 0)
                     AcceptButton = SearchButton;
+
                 NextButton.Enabled = resultList.Items.Count != 0;
                 SearchChangedValuesButton.Enabled = resultList.Items.Count != 0;
+
                 timer1.Start(); // start again once finished
             }
             catch (Exception ex)

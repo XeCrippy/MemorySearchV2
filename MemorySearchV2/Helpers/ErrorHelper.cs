@@ -79,8 +79,7 @@ namespace MemorySearchV2.Helpers
             string[] lines =
             {
                 $"[{DateTime.Now}] Error in {ex.Source}: {ex.Message}", 
-                $"TargetSite: {ex.TargetSite}", 
-                $"StackTrace: {ex.StackTrace}", new string('-', 75)
+                $"TargetSite: {ex.TargetSite}",  new string('-', 75)
             };
 
             File.AppendAllLines(logFileFullPath, lines);
