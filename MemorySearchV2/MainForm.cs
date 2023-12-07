@@ -87,6 +87,7 @@ namespace MemorySearchV2
             {
                 if (!Connect())
                     ErrorHelper.ConnectionError();
+                else ConnectCheck.Checked = true;
             }
         }
 
@@ -201,24 +202,31 @@ namespace MemorySearchV2
 
         private void AddToTableButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (resultList.SelectedItems.Count == 0) return;
-            else if (resultList.SelectedItems.Count > 1)
+            try
             {
-                for (int i = 0; i < resultList.SelectedItems.Count; i++)
+                if (resultList.SelectedItems.Count == 0) return;
+                else if (resultList.SelectedItems.Count > 1)
                 {
-                    tableList.Items.Add(resultList.SelectedItems[i].Text);
-                    tableList.Items[i].SubItems.Add("");
-                    tableList.Items[i].SubItems.Add("");
-                    tableList.Items[i].SubItems.Add(resultList.SelectedItems[i].SubItems[1].Text);
+                    for (int i = 0; i < resultList.SelectedItems.Count; i++)
+                    {
+                        tableList.Items.Add(resultList.SelectedItems[i].Text);
+                        tableList.Items[i].SubItems.Add("");
+                        tableList.Items[i].SubItems.Add("");
+                        tableList.Items[i].SubItems.Add(resultList.SelectedItems[i].SubItems[1].Text);
+                    }
+                }
+                else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
+                else
+                    new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
+                if (extlvi != null)
+                {
+                    tableList.Items.Add(extlvi);
+                    extlvi = null;
                 }
             }
-            else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
-            else
-                new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
-            if (extlvi != null)
+            catch (Exception ex)
             {
-                tableList.Items.Add(extlvi);
-                extlvi = null;
+                ErrorHelper.Error(ex);
             }
         }
 
@@ -408,14 +416,31 @@ namespace MemorySearchV2
 
         private void resultList_DoubleClick(object sender, EventArgs e)
         {
-            if (resultList.SelectedItems.Count != 1) return;
-            else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[1].Text, dataType_.Text).ShowDialog();
-            else
-                new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
-            if (extlvi != null)
+            try
             {
-                tableList.Items.Add(extlvi);
-                extlvi = null;
+                if (resultList.SelectedItems.Count == 0) return;
+                else if (resultList.SelectedItems.Count > 1)
+                {
+                    for (int i = 0; i < resultList.SelectedItems.Count; i++)
+                    {
+                        tableList.Items.Add(resultList.SelectedItems[i].Text);
+                        tableList.Items[i].SubItems.Add("");
+                        tableList.Items[i].SubItems.Add("");
+                        tableList.Items[i].SubItems.Add(resultList.SelectedItems[i].SubItems[1].Text);
+                    }
+                }
+                else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
+                else
+                    new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
+                if (extlvi != null)
+                {
+                    tableList.Items.Add(extlvi);
+                    extlvi = null;
+                }
+            }
+            catch(Exception ex)
+            {
+                ErrorHelper.Error(ex);
             }
         }
 
