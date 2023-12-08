@@ -73,6 +73,7 @@ namespace MemorySearchV2
             this.LoadTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.AutoConnect = new DevExpress.XtraBars.BarCheckItem();
             this.ConnectCheck = new DevExpress.XtraBars.BarCheckItem();
+            this.IsDevKitCheck = new DevExpress.XtraBars.BarCheckItem();
             this.resultList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -121,7 +122,7 @@ namespace MemorySearchV2
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
             this.ChunkSizeEdit = new DevExpress.XtraEditors.SpinEdit();
-            this.IsDevKitCheck = new DevExpress.XtraBars.BarCheckItem();
+            this.CheatTableConverter = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AppMenuPopup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultListMenu)).BeginInit();
@@ -175,9 +176,10 @@ namespace MemorySearchV2
             this.AutoConnect,
             this.ConnectCheck,
             this.ConsoleInfoMenuItem,
-            this.IsDevKitCheck});
+            this.IsDevKitCheck,
+            this.CheatTableConverter});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 22;
+            this.ribbonControl1.MaxItemId = 23;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.PageHeaderItemLinks.Add(this.ConnectCheck);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.SaveTableButtonItem);
@@ -193,6 +195,7 @@ namespace MemorySearchV2
             this.AppMenuPopup.ItemLinks.Add(this.SaveCheatTableButtonItem);
             this.AppMenuPopup.ItemLinks.Add(this.LoadCheatTableMenuItem);
             this.AppMenuPopup.ItemLinks.Add(this.ConsoleInfoMenuItem);
+            this.AppMenuPopup.ItemLinks.Add(this.CheatTableConverter);
             this.AppMenuPopup.Name = "AppMenuPopup";
             this.AppMenuPopup.Ribbon = this.ribbonControl1;
             // 
@@ -369,6 +372,14 @@ namespace MemorySearchV2
             this.ConnectCheck.SuperTip = superToolTip3;
             this.ConnectCheck.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.ConnectCheck_CheckedChanged);
             // 
+            // IsDevKitCheck
+            // 
+            this.IsDevKitCheck.Caption = "RGLoader/Dev Nand";
+            this.IsDevKitCheck.Id = 21;
+            this.IsDevKitCheck.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("IsDevKitCheck.ImageOptions.SvgImage")));
+            this.IsDevKitCheck.Name = "IsDevKitCheck";
+            this.IsDevKitCheck.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.IsDevKitCheck_CheckedChanged);
+            // 
             // resultList
             // 
             this.resultList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
@@ -439,7 +450,7 @@ namespace MemorySearchV2
             this.tableList.Name = "tableList";
             this.ribbonControl1.SetPopupContextMenu(this.tableList, this.tableListMenu);
             this.tableList.ShowItemToolTips = true;
-            this.tableList.Size = new System.Drawing.Size(716, 161);
+            this.tableList.Size = new System.Drawing.Size(716, 229);
             this.tableList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.tableList.TabIndex = 0;
             this.tableList.UseCompatibleStateImageBehavior = false;
@@ -495,7 +506,7 @@ namespace MemorySearchV2
             this.panelControl3.Controls.Add(this.tableList);
             this.panelControl3.Location = new System.Drawing.Point(12, 407);
             this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(720, 165);
+            this.panelControl3.Size = new System.Drawing.Size(720, 233);
             this.panelControl3.TabIndex = 37;
             // 
             // panelControl5
@@ -896,20 +907,20 @@ namespace MemorySearchV2
             this.ChunkSizeEdit.SuperTip = superToolTip7;
             this.ChunkSizeEdit.TabIndex = 44;
             // 
-            // IsDevKitCheck
+            // CheatTableConverter
             // 
-            this.IsDevKitCheck.Caption = "RGLoader/Dev Nand";
-            this.IsDevKitCheck.Id = 21;
-            this.IsDevKitCheck.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barCheckItem1.ImageOptions.SvgImage")));
-            this.IsDevKitCheck.Name = "IsDevKitCheck";
-            this.IsDevKitCheck.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.IsDevKitCheck_CheckedChanged);
+            this.CheatTableConverter.Caption = "Convert Cheat Table To CS";
+            this.CheatTableConverter.Id = 22;
+            this.CheatTableConverter.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("CheatTableConverter.ImageOptions.SvgImage")));
+            this.CheatTableConverter.Name = "CheatTableConverter";
+            this.CheatTableConverter.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.CheatTableConverter_ItemClick);
             // 
             // MainForm
             // 
             this.AcceptButton = this.SearchButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(744, 584);
+            this.ClientSize = new System.Drawing.Size(744, 652);
             this.Controls.Add(this.labelControl15);
             this.Controls.Add(this.labelControl14);
             this.Controls.Add(this.ResultsToDisplayInput);
@@ -1034,6 +1045,7 @@ namespace MemorySearchV2
         private DevExpress.XtraEditors.SpinEdit ChunkSizeEdit;
         private DevExpress.XtraBars.BarButtonItem ConsoleInfoMenuItem;
         private DevExpress.XtraBars.BarCheckItem IsDevKitCheck;
+        private DevExpress.XtraBars.BarButtonItem CheatTableConverter;
     }
 }
 

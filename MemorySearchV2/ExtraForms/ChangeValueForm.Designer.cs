@@ -128,7 +128,7 @@ namespace MemorySearchV2.ExtraForms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.simpleButton2;
-            this.ClientSize = new System.Drawing.Size(237, 114);
+            this.ClientSize = new System.Drawing.Size(237, 113);
             this.Controls.Add(this.labelControl12);
             this.Controls.Add(this.dataType_);
             this.Controls.Add(this.checkEdit1);

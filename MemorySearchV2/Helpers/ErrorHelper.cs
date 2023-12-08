@@ -23,13 +23,13 @@ namespace MemorySearchV2.Helpers
         {
             string[] lines=
             {
-                new string('-', 75), "You are not connected to your console", "Null Connection Error"
+                new string('-', 75), "You are not connected to your console", "Null Connection Error", $"[{DateTime.Now}] : "
             };
             MessageDialogBox(lines[1], lines[2]);
             LogMessages(lines, logFilePath);
         }
 
-        public static void DisplaySearchResultsMsg(int foundMatches, long searchTimer)
+        public static void DisplaySearchResultsMsg(int foundMatches, long searchTimer, uint length)
         {
           
 
@@ -43,11 +43,11 @@ namespace MemorySearchV2.Helpers
 
             string[] lines =
             {
-                   new string('-', 80) ,  "Successfully found : " + foundMatches + " matches" + "\nSearch Time : " + elapsedTime + " (hh:mm:ss:ms)"
+                   new string('-', 80) ,  "Successfully found : " + foundMatches + " matches" + "\nSearch Time : " + elapsedTime + " (hh:mm:ss:ms)", "Search Length : 0x" + length.ToString("X"),  $"[{DateTime.Now}] : "
             };
 
 
-            MessageDialogBox($"[{DateTime.Now}] : Successfully found: {foundMatches} matches\n\nSearch Time: {elapsedTime}", "Search Results");
+            MessageDialogBox($"[{DateTime.Now}] : Successfully found: {foundMatches} matches\nSearch Time: {elapsedTime}\n" + "Search Length : 0x" + length.ToString("X"), "Search Results");
 
             LogMessages(lines, resultsFilePath);
         }

@@ -1,5 +1,4 @@
-﻿using DevExpress.XtraEditors;
-using DevExpress.XtraSplashScreen;
+﻿using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -131,7 +130,7 @@ namespace MemorySearchV2.Helpers
                 long searchTimer = stopwatch.ElapsedMilliseconds;
                 if (splashScreenManager.IsSplashFormVisible)
                     splashScreenManager.CloseWaitForm();
-                ErrorHelper.DisplaySearchResultsMsg(foundMatches, searchTimer);
+                ErrorHelper.DisplaySearchResultsMsg(foundMatches, searchTimer, length);
 
                 return searchResults;
             }
@@ -188,7 +187,7 @@ namespace MemorySearchV2.Helpers
                  long searchTimer = stopwatch.ElapsedMilliseconds;
                  if (splashScreenManager.IsSplashFormVisible)
                      splashScreenManager.CloseWaitForm();
-                 ErrorHelper.DisplaySearchResultsMsg(foundMatches, searchTimer);
+                 ErrorHelper.DisplaySearchResultsMsg(foundMatches, searchTimer, (uint)length);
 
                  return searchResults;
              }
@@ -319,7 +318,7 @@ namespace MemorySearchV2.Helpers
                 if (splashScreenManager1.IsSplashFormVisible)
                     splashScreenManager1.CloseWaitForm();
 
-                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
+                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds, (uint)searchResults.Count * 4);
             }
             catch (Exception ex)
             {
@@ -390,7 +389,7 @@ namespace MemorySearchV2.Helpers
 
                 stopwatch.Stop();
                 long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds);
+                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds, (uint)searchResults.Count);
             }
             catch (Exception ex)
             {

@@ -93,12 +93,19 @@
     <Compile Include="ExtraForms\ChangeValueForm.Designer.cs">
       <DependentUpon>ChangeValueForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExtraForms\CheatTableConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtraForms\CheatTableConverter.Designer.cs">
+      <DependentUpon>CheatTableConverter.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtraForms\ConsoleInfo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ExtraForms\ConsoleInfo.Designer.cs">
       <DependentUpon>ConsoleInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CheatTableConversion.cs" />
     <Compile Include="Helpers\ConversionHelper.cs" />
     <Compile Include="Helpers\ListViewHelper.cs" />
     <Compile Include="Helpers\SearchHelper.cs" />
@@ -124,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraForms\ChangeValueForm.resx">
       <DependentUpon>ChangeValueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtraForms\CheatTableConverter.resx">
+      <DependentUpon>CheatTableConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraForms\ConsoleInfo.resx">
       <DependentUpon>ConsoleInfo.cs</DependentUpon>

@@ -2,8 +2,11 @@
 using DevExpress.XtraEditors;
 using MemorySearchV2.ExtraForms;
 using MemorySearchV2.Helpers;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using XDevkit;
@@ -484,13 +487,30 @@ namespace MemorySearchV2
 
         private void ConsoleInfoMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            ConsoleInfo consoleInfo = new ConsoleInfo();
-            consoleInfo.Show();
+            if (activeConnection)
+            {
+                ConsoleInfo consoleInfo = new ConsoleInfo();
+                consoleInfo.Show();
+            }
+            else ErrorHelper.ConnectionError();
         }
 
         private void IsDevKitCheck_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             Properties.Settings.Default.IsDevKit = IsDevKitCheck.Checked;
+        }
+
+        private void CheatTableConverter_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                CheatTableConversion tableConverter = new CheatTableConversion();
+                tableConverter.ConvertTableToCsClass();
+            }
+            catch(Exception ex)
+            {
+                ErrorHelper.Error(ex);
+            }
         }
     }
 }

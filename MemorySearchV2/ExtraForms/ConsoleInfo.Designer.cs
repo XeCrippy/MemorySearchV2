@@ -29,6 +29,7 @@ namespace MemorySearchV2.ExtraForms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
@@ -53,6 +54,7 @@ namespace MemorySearchV2.ExtraForms
             this.GamertagBox = new DevExpress.XtraEditors.TextEdit();
             this.ProfileIdBox = new DevExpress.XtraEditors.TextEdit();
             this.XuidBox = new DevExpress.XtraEditors.TextEdit();
+            this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.XboxIPBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CpuKeyBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ConsoleIdBox.Properties)).BeginInit();
@@ -271,6 +273,10 @@ namespace MemorySearchV2.ExtraForms
             this.XuidBox.Size = new System.Drawing.Size(183, 20);
             this.XuidBox.TabIndex = 23;
             // 
+            // defaultLookAndFeel1
+            // 
+            this.defaultLookAndFeel1.LookAndFeel.SkinName = "Office 2016 Black";
+            // 
             // ConsoleInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,5 +356,6 @@ namespace MemorySearchV2.ExtraForms
         private DevExpress.XtraEditors.TextEdit GamertagBox;
         private DevExpress.XtraEditors.TextEdit ProfileIdBox;
         private DevExpress.XtraEditors.TextEdit XuidBox;
+        private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
     }
 }

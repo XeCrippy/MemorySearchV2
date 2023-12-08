@@ -1,4 +1,5 @@
-﻿using MemorySearchV2.Helpers;
+﻿using DevExpress.LookAndFeel;
+using MemorySearchV2.Helpers;
 using System;
 
 namespace MemorySearchV2.ExtraForms
@@ -11,6 +12,7 @@ namespace MemorySearchV2.ExtraForms
         public ConsoleInfo()
         {
             InitializeComponent();
+            UserLookAndFeel.Default.SetSkinStyle("Office 2019 Black", "Fire Brick");
         }
 
         private void ConsoleInfo_Load(object sender, EventArgs e)
@@ -27,7 +29,7 @@ namespace MemorySearchV2.ExtraForms
                     MotherboardBox.Text = MainForm.xb.ConsoleType().ToString() + " : " + MainForm.xb.ConsoleType.ToString();
                     FeaturesBox.Text = MainForm.xb.ConsoleFeatures.ToString();
                     DbgVersionBox.Text = MainForm.xb.GetDebugVersion();
-                    KernelVersionBox.Text = "2.0." + MainForm.xb.GetKernalVersion().ToString();
+                    KernelVersionBox.Text = "2.0." + MainForm.xb.GetKernalVersion().ToString() + ".0";
                     GamertagBox.Text = MainForm.xb.GetGamertag(isDevkit);
                     ProfileIdBox.Text = MainForm.xb.GetOfflineXuidDevKit(isDevkit).ToString("X");
                     XuidBox.Text = "Not implemented for devkit";
