@@ -16,14 +16,6 @@ namespace MemorySearchV2.Helpers
             public string Value { get; set; }
         }
 
-        public class ResultEntry
-        {
-            public string Address { get; set; }
-            public string Value { get; set; }
-            public string Previous { get; set; }
-            public string Type { get; set; }
-        }
-
         public static ListViewItem CreateListViewItem(uint startAddress, int matchIndex, string value)
         {
             uint matchedAddress = startAddress + (uint)matchIndex;
@@ -55,16 +47,6 @@ namespace MemorySearchV2.Helpers
             return lvi;
         }
 
-        private static ResultEntry GetChangeResultsFromListViewItem(ListViewItem item)
-        {
-            return new ResultEntry
-            {
-                Address = item.Text,
-                Value = item.SubItems[1].Text,
-                Previous = item.SubItems[2].Text
-            };
-        }
-
         private static CheatEntry GetCheatEntryFromListViewItem(ListViewItem item)
         {
             return new CheatEntry
@@ -76,28 +58,7 @@ namespace MemorySearchV2.Helpers
             };
         }
 
-        private static ListViewItem CreateResultListViewItems(ResultEntry entry)
-        {
-            ListViewItem lvi = new ListViewItem(entry.Address);
-            string val = GetValueForResultEntry(entry, MainForm.activeConnection);
-            lvi.SubItems.Add(val);
-            lvi.SubItems.Add(entry.Previous);
-
-            return lvi;
-        }
-
         private static string GetValueAsString<T>(Func<uint, T> readFunction, CheatEntry entry, int stringLength = 0)
-        {
-            if (MainForm.activeConnection)
-            {
-                uint address = uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber);
-                return readFunction(address).ToString();
-            }
-
-            return string.Empty;
-        }
-
-        private static string GetValueAsString<T>(Func<uint, T> readFunction, ResultEntry entry, int stringLength = 0)
         {
             if (MainForm.activeConnection)
             {
@@ -123,25 +84,6 @@ namespace MemorySearchV2.Helpers
                 else if (entry.Type == "UINTLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt32(MainForm.xb.ReadUInt32(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
                 else if (entry.Type == "ULONGLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt64(MainForm.xb.ReadUInt64(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
                 else if (entry.Type == "ASSEMBLY") val = MainForm.xb.ReadUInt32(uint.Parse(entry.Address.Replace("0x", ""), NumberStyles.HexNumber)).ToString("X");
-            }
-            return val;
-        }
-
-        public static string GetValueForResultEntry(ResultEntry resultEntry, bool activeConnection)
-        {
-            string val = "0";
-            if (activeConnection)
-            {
-                if (resultEntry.Type == "BYTE") val = GetValueAsString(MainForm.xb.ReadByte, resultEntry);
-                else if (resultEntry.Type == "USHORT") val = GetValueAsString(MainForm.xb.ReadUInt16, resultEntry);
-                else if (resultEntry.Type == "UINT") val = GetValueAsString(MainForm.xb.ReadUInt32, resultEntry);
-                else if (resultEntry.Type == "ULONG") val = GetValueAsString(MainForm.xb.ReadUInt64, resultEntry);
-                else if (resultEntry.Type == "FLOAT") val = GetValueAsString(MainForm.xb.ReadFloat, resultEntry);
-                else if (resultEntry.Type == "STRING") val = MainForm.xb.ReadString(uint.Parse(resultEntry.Address.Replace("0x", ""), NumberStyles.HexNumber), 20);
-                else if (resultEntry.Type == "USHORTLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt16(MainForm.xb.ReadUInt16(uint.Parse(resultEntry.Address.Replace("0x", "")))).ToString();
-                else if (resultEntry.Type == "UINTLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt32(MainForm.xb.ReadUInt32(uint.Parse(resultEntry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
-                else if (resultEntry.Type == "ULONGLITTLEENDIAN") val = ConversionHelper.ReverseBytes_UInt64(MainForm.xb.ReadUInt64(uint.Parse(resultEntry.Address.Replace("0x", ""), NumberStyles.HexNumber))).ToString();
-                else if (resultEntry.Type == "ASSEMBLY") val = MainForm.xb.ReadUInt32(uint.Parse(resultEntry.Address.Replace("0x", ""), NumberStyles.HexNumber)).ToString("X");
             }
             return val;
         }
@@ -184,32 +126,6 @@ namespace MemorySearchV2.Helpers
             catch (Exception ex)
             {
                 ErrorHelper.Error(ex);
-            }
-        }
-
-        public static ConcurrentBag<ListViewItem> RefreshChangedResultValues(ConcurrentBag<ListViewItem> resultsListViewItems)
-        {
-            try
-            {
-                ConcurrentBag<ListViewItem> newResults = new ConcurrentBag<ListViewItem>();
-
-                foreach (ListViewItem existingItem in resultsListViewItems)
-                {
-                    ResultEntry entry = GetChangeResultsFromListViewItem(existingItem);
-
-                    string valueForEntry = GetValueForResultEntry(entry, MainForm.activeConnection);
-
-                    existingItem.SubItems[0].Text = entry.Address;
-                    existingItem.SubItems[1].Text = valueForEntry;
-                    existingItem.SubItems[2].Text = entry.Previous;
-                    newResults.Add(existingItem);
-                }
-                return newResults;
-            }
-            catch (Exception ex)
-            {
-                ErrorHelper.Error(ex);
-                return null;
             }
         }
 

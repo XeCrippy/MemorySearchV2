@@ -154,5 +154,17 @@ namespace MemorySearchV2.Properties {
                 this["AutoConnect"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsDevKit {
+            get {
+                return ((bool)(this["IsDevKit"]));
+            }
+            set {
+                this["IsDevKit"] = value;
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace MemorySearchV2.ExtraForms
             address = uint.Parse(addr.Replace("0x", ""), NumberStyles.HexNumber);
             dataType_.Text = type;
             datatype = type;
+            valueBox.Focus();
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)

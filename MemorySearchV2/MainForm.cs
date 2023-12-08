@@ -17,8 +17,8 @@ namespace MemorySearchV2
     {
         #region Global
         public static IXboxConsole xb;
-        public static bool activeConnection;
         public static ListViewItem extlvi = null;
+        public static bool activeConnection;
         #endregion
 
         #region Splashcreen handler
@@ -56,7 +56,6 @@ namespace MemorySearchV2
                 return false;
             }
         }
-        #endregion
 
         private void GetConnectionState()
         {
@@ -69,7 +68,9 @@ namespace MemorySearchV2
                 ConnectCheck.Checked = false;
             }
         }
+        #endregion
 
+        #region Program Settings
         private void LoadProgramSettings()
         {
             ResultsToDisplayInput.Value = (decimal)Properties.Settings.Default.ResultsToDisplay;
@@ -82,6 +83,7 @@ namespace MemorySearchV2
             pause.Checked = Properties.Settings.Default.PauseWhileSearching;
             RefreshIntervalEdit.Value = (decimal)Properties.Settings.Default.RefreshTableValuesInterval;
             AutoConnect.Checked = Properties.Settings.Default.AutoConnect;
+            IsDevKitCheck.Checked = Properties.Settings.Default.IsDevKit;
 
             if (Properties.Settings.Default.AutoConnect)
             {
@@ -103,8 +105,10 @@ namespace MemorySearchV2
             Properties.Settings.Default.PauseWhileSearching = pause.Checked;
             Properties.Settings.Default.RefreshTableValuesInterval = (int)RefreshIntervalEdit.Value;
             Properties.Settings.Default.AutoConnect = AutoConnect.Checked;
+            Properties.Settings.Default.IsDevKit = IsDevKitCheck.Checked;
             Properties.Settings.Default.Save();
         }
+        #endregion
 
         public MainForm()
         {
@@ -113,7 +117,7 @@ namespace MemorySearchV2
             NextButton.Enabled = false;
             SearchChangedValuesButton.Enabled = false;
             UserLookAndFeel.Default.SetSkinStyle("Office 2019 Black", "Fire Brick");
-            DevExpress.XtraEditors.WindowsFormsSettings.UseDXDialogs = DevExpress.Utils.DefaultBoolean.True;
+            WindowsFormsSettings.UseDXDialogs = DevExpress.Utils.DefaultBoolean.True;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -476,6 +480,17 @@ namespace MemorySearchV2
             {
                 ErrorHelper.Error(ex);
             }
+        }
+
+        private void ConsoleInfoMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            ConsoleInfo consoleInfo = new ConsoleInfo();
+            consoleInfo.Show();
+        }
+
+        private void IsDevKitCheck_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Properties.Settings.Default.IsDevKit = IsDevKitCheck.Checked;
         }
     }
 }

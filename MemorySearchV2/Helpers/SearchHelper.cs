@@ -144,57 +144,42 @@ namespace MemorySearchV2.Helpers
             }
         }
 
-        private static uint NextSearchStartAddress()
+        private static uint NextSearchAddress()
         {
             uint start;
             uint first = uint.Parse(searchResults.First().Text.Replace("0x", ""), NumberStyles.HexNumber);
             uint last = uint.Parse(searchResults.Last().Text.Replace("0x", ""), NumberStyles.HexNumber);
 
             if (first < last)
-            {
-                start = uint.Parse(searchResults.First().Text.Replace("0x", ""), NumberStyles.HexNumber);
-            }
-            else 
-            {
-                start = uint.Parse(searchResults.Last().Text.Replace("0x", ""), NumberStyles.HexNumber);
-            }
+                start = first;
+            else
+                start = last;
+
             return start;
         }
-
-        /// <summary>
-        /// WORK IN PROGRESS
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="searchSize"></param>
-        /// <param name="searchValue"></param>
-        /// <param name="pauseWhileSearching"></param>
-        /// <param name="splashScreenManager"></param>
-        /// <param name="ChunkSize"></param>
-        /// <param name="maxResults"></param>
-        /// <returns></returns>
         public static List<ListViewItem> PerformSubsequentSearches(string value, int searchSize, byte[] searchValue, bool pauseWhileSearching, SplashScreenManager splashScreenManager, uint ChunkSize, int maxResults = int.MaxValue)
         {
-            /* try
+             try
              {
                  Stopwatch stopwatch = new Stopwatch();
                  splashScreenManager.ShowWaitForm();
                  foundMatches = 0;
-                 uint length = (uint)searchResults.Count * 4;
+                 int length = searchResults.Count * 4;
 
                  stopwatch.Start();
 
                  if (pauseWhileSearching)
                      MainForm.xb.DebugTarget.Stop(out bool isStopped);
 
-                 byte[] bytes = MainForm.xb.GetMemoryTest(NextSearchStartAddress(), length, ChunkSize);
+                 byte[] bytes = MainForm.xb.GetMemoryTest(NextSearchAddress(), (uint)length, ChunkSize);
 
                  int[] badCharShift = new int[Byte.MaxValue + 1];
                  int lastChar = searchSize - 1;
 
                  PreprocessBadCharShift(searchSize, searchValue, badCharShift, lastChar);
 
-                 Parallel.ForEach(Partitioner.Create(0, (int)length), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
-                     range => SearchMemoryRange(range, bytes, searchSize, searchValue, value, maxResults, NextSearchStartAddress(), badCharShift));
+                 Parallel.ForEach(Partitioner.Create(0, length), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                     range => SearchMemoryRange(range, bytes, searchSize, searchValue, value, maxResults, NextSearchAddress(), badCharShift));
 
                  if (pauseWhileSearching)
                      MainForm.xb.DebugTarget.Go(out bool isStopped);
@@ -213,8 +198,7 @@ namespace MemorySearchV2.Helpers
                      splashScreenManager.CloseWaitForm();
                  ErrorHelper.Error(ex);
                  return null;
-             }*/
-            return null;
+             }
         }
 
         private static int[] PreprocessBadCharShift(int searchSize, byte[] searchValue, int[] badCharShift, int lastChar)
@@ -282,11 +266,11 @@ namespace MemorySearchV2.Helpers
                 stopwatch.Start();
                 splashScreenManager1.ShowWaitForm();
 
-                ListView.ListViewItemCollection list = resultList.Items;
                 List<ListViewItem> itemsToAdd = new List<ListViewItem>();
+                List<ListViewItem> itemsToRemove = new List<ListViewItem>();
 
                 int searchSize;
-                byte[] searchValue = SearchHelper.GetSearchParameters(dataType_, valBox, isHex, isLittleEndian, out searchSize);
+                byte[] searchValue = GetSearchParameters(dataType_, valBox, isHex, isLittleEndian, out searchSize);
 
                 int found = 0;
 
@@ -294,7 +278,7 @@ namespace MemorySearchV2.Helpers
                 Parallel.ForEach(searchResults, resultItem =>
                 {
                     uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                    byte[] buffer = MainForm.xb.GetMemory(address, (uint)searchSize);
+                    byte[] buffer = MainForm.xb.GetMemoryTest(address, (uint)searchSize);
 
                     if (buffer.SequenceEqual(searchValue))
                     {
@@ -363,15 +347,13 @@ namespace MemorySearchV2.Helpers
 
                 int found = 0;
                 
-
-                ListView.ListViewItemCollection list = resultList.Items;
                 List<ListViewItem> itemsToAdd = new List<ListViewItem>();
                 string previousValue = resultList.Items[0].SubItems[1].Text;
 
                 Parallel.ForEach(searchResults, resultItem =>
                 {
                     uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
-                    byte[] buffer = MainForm.xb.GetMemory(address, (uint)searchSize);
+                    byte[] buffer = MainForm.xb.GetMemoryTest(address, (uint)searchSize);
 
                     if (!buffer.SequenceEqual(searchValue))
                     {
@@ -397,7 +379,6 @@ namespace MemorySearchV2.Helpers
 
                 if (found == 0)
                 {
-                    resultList.Items.Clear(); // Clear the list if no valid results are found
                     SearchHelper.searchResults.Clear();
                 }
 

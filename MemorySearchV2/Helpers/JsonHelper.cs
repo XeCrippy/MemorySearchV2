@@ -35,7 +35,7 @@ namespace MemorySearchV2.Helpers
 
                 foreach (ListViewHelper.CheatEntry entry in cheatEntries)
                 {
-                    if (ShouldSkipEntry(entry))
+                    if (ListViewHelper.ShouldSkipEntry(entry))
                         continue;
                     if (cheatEntries is null)
                         break;
@@ -237,14 +237,6 @@ namespace MemorySearchV2.Helpers
             {
                 ErrorHelper.Error(ex);
             }
-        }
-
-        public static bool ShouldSkipEntry(ListViewHelper.CheatEntry entry)
-        {
-            return string.IsNullOrEmpty(entry.Address) &&
-                   string.IsNullOrEmpty(entry.Description) &&
-                   string.IsNullOrEmpty(entry.Type) &&
-                   string.IsNullOrEmpty(entry.Value);
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿[
+  {
+    "Address": "0x8222ED60",
+    "Description": "Instant classic mode unlocks (change to 0x394A003C)",
+    "Type": "ASSEMBLY",
+    "Value": "394A000A"
+  },
+  {
+    "Address": "0xB147558C",
+    "Description": "score",
+    "Type": "UINT",
+    "Value": "0"
+  },
+  {
+    "Address": "0xB3F5FAA0",
+    "Description": "",
+    "Type": "UINT",
+    "Value": "450150"
+  },
+  {
+    "Address": "0xB4392A64",
+    "Description": "goals - chicago",
+    "Type": "UINT",
+    "Value": "4"
+  },
+  {
+    "Address": "0xB4392A68",
+    "Description": "goals - minneapolis",
+    "Type": "UINT",
+    "Value": "10"
+  },
+  {
+    "Address": "0xB4392A70",
+    "Description": "goals - mall",
+    "Type": "UINT",
+    "Value": "9"
+  },
+  {
+    "Address": "0xB4392A78",
+    "Description": "goals - santa cruz",
+    "Type": "UINT",
+    "Value": "9"
+  },
+  {
+    "Address": "0xB4392B18",
+    "Description": "high combo 2",
+    "Type": "UINT",
+    "Value": "10000"
+  }
+]

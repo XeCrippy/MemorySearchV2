@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using XDevkit;
@@ -8,6 +11,7 @@ namespace MemorySearchV2.Helpers
     public static class JRPC
     {
         public static uint connectionId;
+        public static readonly uint jrpcVersion = 2;
 
         public static bool Connect(this IXboxConsole console, out IXboxConsole Console, string XboxNameOrIP = "default")
         {
@@ -30,6 +34,77 @@ namespace MemorySearchV2.Helpers
             }
             Console = xboxConsole;
             return true;
+        }
+
+        public static string ConsoleType(this IXboxConsole console)
+        {
+            string Command = "consolefeatures ver=" + jrpcVersion + " type=17 params=\"A\\0\\A\\0\\\"";
+            string String = SendCommand(console, Command);
+            return String.Substring(String.find(" ") + 1);
+        }
+
+        public static int find(this string String, string _Ptr)
+        {
+            if (_Ptr.Length == 0 || String.Length == 0)
+                return -1;
+            for (int index1 = 0; index1 < String.Length; ++index1)
+            {
+                if ((int)String[index1] == (int)_Ptr[0])
+                {
+                    bool flag = true;
+                    for (int index2 = 0; index2 < _Ptr.Length; ++index2)
+                    {
+                        if ((int)String[index1 + index2] != (int)_Ptr[index2])
+                            flag = false;
+                    }
+                    if (flag)
+                        return index1;
+                }
+            }
+            return -1;
+        }
+
+        public static string GetConsoleID(this IXboxConsole console)
+        {
+            string String = SendCommand(console, "getconsoleid");
+            return String.Substring(String.find(" ") + 1).Replace("consoleid=", "");
+        }
+
+        public static string GetCPUKey(this IXboxConsole console)
+        {
+            string Command = "consolefeatures ver=" + (object)jrpcVersion + " type=10 params=\"A\\0\\A\\0\\\"";
+            string String = SendCommand(console, Command);
+            return String.Substring(String.find(" ") + 1);
+        }
+
+        public static string GetDebugVersion(this IXboxConsole console)
+        {
+            return SendCommand(console, "dmversion").Replace("200- ", string.Empty);
+        }
+
+        public static string GetGamertag(this IXboxConsole console, bool IsDevkit)
+        {
+            uint address;
+            uint XAMGamertagWCHARDevkit = 0x81D44475;
+            uint XAMGamertagWCHARRetail = 0x81AA28FD;
+
+            if (IsDevkit)
+            {
+                address = XAMGamertagWCHARDevkit;
+            }
+            else
+            {
+                address = XAMGamertagWCHARRetail;
+            }
+            byte[] memory = GetMemory(console, address, 30);
+            return Encoding.Unicode.GetString(memory);
+        }
+
+        public static uint GetKernalVersion(this IXboxConsole console)
+        {
+            string Command = "consolefeatures ver=" + (object)jrpcVersion + " type=13 params=\"A\\0\\A\\0\\\"";
+            string String = SendCommand(console, Command);
+            return uint.Parse(String.Substring(String.find(" ") + 1));
         }
 
         public static byte[] GetMemory(this IXboxConsole console, uint Address, uint Length)
@@ -81,6 +156,20 @@ namespace MemorySearchV2.Helpers
 
             console.DebugTarget.InvalidateMemoryCache(true, address, length);
             return result;
+        }
+
+        public static ulong GetOfflineXuidDevKit(this IXboxConsole console, bool IsDevkit)
+        {
+            uint address;
+            uint XAMOfflineXuidDevKit = 0x81D44460;
+            uint XAMProfileIDRetail = 0x81AA28E8;
+
+            if (IsDevkit)
+            {
+                address = XAMOfflineXuidDevKit;
+            }
+            else address = XAMProfileIDRetail;
+            return ReadUInt64(console, address);
         }
 
         public static void Push(this byte[] InArray, out byte[] OutArray, byte Value)
@@ -147,10 +236,35 @@ namespace MemorySearchV2.Helpers
             }
         }
 
+        public static string SendCommand(this IXboxConsole console, string Command)
+        {
+            string Response;
+            try
+            {
+                console.SendTextCommand(connectionId, Command, out Response);
+                if (Response.Contains("error="))
+                    throw new Exception(Response.Substring(11));
+                if (Response.Contains("DEBUG"))
+                    throw new Exception("JRPC2 is not installed on the current console");
+            }
+            catch (COMException ex)
+            {
+                if (ex.ErrorCode == UIntToInt(2195324935U))
+                    throw new Exception("JRPC2 is not installed on the current console");
+                throw ex;
+            }
+            return Response;
+        }
+
         public static void SetMemory(this IXboxConsole console, uint Address, byte[] Data)
         {
             uint BytesWritten;
             console.DebugTarget.SetMemory(Address, (uint)Data.Length, Data, out BytesWritten);
+        }
+
+        public static int UIntToInt(uint Value)
+        {
+            return BitConverter.ToInt32(BitConverter.GetBytes(Value), 0);
         }
 
         public static void WriteByte(this IXboxConsole console, uint Address, byte Value)
@@ -198,6 +312,20 @@ namespace MemorySearchV2.Helpers
                 OutArray.Push(out OutArray, num);
             OutArray.Push(out OutArray, (byte)0);
             console.SetMemory(Address, OutArray);
+        }
+
+        public static uint XamGetCurrentTitleId(this IXboxConsole console)
+        {
+            string Command = "consolefeatures ver=" + jrpcVersion + " type=16 params=\"A\\0\\A\\0\\\"";
+            string String = SendCommand(console, Command);
+            return uint.Parse(String.Substring(String.find(" ") + 1), NumberStyles.HexNumber);
+        }
+
+        public static string XboxIP(this IXboxConsole console)
+        {
+            byte[] bytes = BitConverter.GetBytes(console.IPAddress);
+            Array.Reverse((Array)bytes);
+            return new IPAddress(bytes).ToString();
         }
     }
 }

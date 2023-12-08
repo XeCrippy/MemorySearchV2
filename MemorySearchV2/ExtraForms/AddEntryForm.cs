@@ -30,10 +30,5 @@ namespace MemorySearchV2.ExtraForms
         {
             Close();
         }
-
-        private void AddEntryForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -56,6 +56,7 @@ namespace MemorySearchV2
             this.AppMenuPopup = new DevExpress.XtraBars.PopupMenu(this.components);
             this.SaveCheatTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.LoadCheatTableMenuItem = new DevExpress.XtraBars.BarButtonItem();
+            this.ConsoleInfoMenuItem = new DevExpress.XtraBars.BarButtonItem();
             this.ConnectButton = new DevExpress.XtraBars.BarButtonItem();
             this.AddToTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.ChangeValueButtonItem = new DevExpress.XtraBars.BarButtonItem();
@@ -120,6 +121,7 @@ namespace MemorySearchV2
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
             this.ChunkSizeEdit = new DevExpress.XtraEditors.SpinEdit();
+            this.IsDevKitCheck = new DevExpress.XtraBars.BarCheckItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AppMenuPopup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultListMenu)).BeginInit();
@@ -171,20 +173,26 @@ namespace MemorySearchV2
             this.SaveTableButtonItem,
             this.LoadTableButtonItem,
             this.AutoConnect,
-            this.ConnectCheck});
+            this.ConnectCheck,
+            this.ConsoleInfoMenuItem,
+            this.IsDevKitCheck});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 20;
+            this.ribbonControl1.MaxItemId = 22;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.PageHeaderItemLinks.Add(this.ConnectCheck);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.SaveTableButtonItem);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.LoadTableButtonItem);
             this.ribbonControl1.PageHeaderItemLinks.Add(this.AutoConnect);
+            this.ribbonControl1.PageHeaderItemLinks.Add(this.IsDevKitCheck);
+            this.ribbonControl1.ShowToolbarCustomizeItem = false;
             this.ribbonControl1.Size = new System.Drawing.Size(744, 62);
+            this.ribbonControl1.Toolbar.ShowCustomizeItem = false;
             // 
             // AppMenuPopup
             // 
             this.AppMenuPopup.ItemLinks.Add(this.SaveCheatTableButtonItem);
             this.AppMenuPopup.ItemLinks.Add(this.LoadCheatTableMenuItem);
+            this.AppMenuPopup.ItemLinks.Add(this.ConsoleInfoMenuItem);
             this.AppMenuPopup.Name = "AppMenuPopup";
             this.AppMenuPopup.Ribbon = this.ribbonControl1;
             // 
@@ -203,6 +211,14 @@ namespace MemorySearchV2
             this.LoadCheatTableMenuItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("LoadCheatTableMenuItem.ImageOptions.SvgImage")));
             this.LoadCheatTableMenuItem.Name = "LoadCheatTableMenuItem";
             this.LoadCheatTableMenuItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.LoadCheatTableMenuItem_ItemClick);
+            // 
+            // ConsoleInfoMenuItem
+            // 
+            this.ConsoleInfoMenuItem.Caption = "View Console Info";
+            this.ConsoleInfoMenuItem.Id = 20;
+            this.ConsoleInfoMenuItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ConsoleInfoMenuItem.ImageOptions.SvgImage")));
+            this.ConsoleInfoMenuItem.Name = "ConsoleInfoMenuItem";
+            this.ConsoleInfoMenuItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ConsoleInfoMenuItem_ItemClick);
             // 
             // ConnectButton
             // 
@@ -858,7 +874,7 @@ namespace MemorySearchV2
             0,
             0});
             this.ChunkSizeEdit.Properties.MaxValue = new decimal(new int[] {
-            20000,
+            10000000,
             0,
             0,
             0});
@@ -879,6 +895,14 @@ namespace MemorySearchV2
             superToolTip7.Items.Add(toolTipTitleItem9);
             this.ChunkSizeEdit.SuperTip = superToolTip7;
             this.ChunkSizeEdit.TabIndex = 44;
+            // 
+            // IsDevKitCheck
+            // 
+            this.IsDevKitCheck.Caption = "RGLoader/Dev Nand";
+            this.IsDevKitCheck.Id = 21;
+            this.IsDevKitCheck.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barCheckItem1.ImageOptions.SvgImage")));
+            this.IsDevKitCheck.Name = "IsDevKitCheck";
+            this.IsDevKitCheck.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.IsDevKitCheck_CheckedChanged);
             // 
             // MainForm
             // 
@@ -1008,6 +1032,8 @@ namespace MemorySearchV2
         private DevExpress.XtraBars.BarCheckItem ConnectCheck;
         private DevExpress.XtraEditors.LabelControl labelControl15;
         private DevExpress.XtraEditors.SpinEdit ChunkSizeEdit;
+        private DevExpress.XtraBars.BarButtonItem ConsoleInfoMenuItem;
+        private DevExpress.XtraBars.BarCheckItem IsDevKitCheck;
     }
 }
 

@@ -173,7 +173,6 @@ namespace MemorySearchV2.ExtraForms
             this.Name = "AddEntryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Entry";
-            this.Load += new System.EventHandler(this.AddEntryForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TypeBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DescriptionBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddressBox.Properties)).EndInit();

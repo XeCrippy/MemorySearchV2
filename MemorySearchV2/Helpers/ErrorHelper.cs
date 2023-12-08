@@ -23,10 +23,9 @@ namespace MemorySearchV2.Helpers
         {
             string[] lines=
             {
-                "You are not connected to your console", "Null Connection Error"
+                new string('-', 75), "You are not connected to your console", "Null Connection Error"
             };
-            MessageDialogBox(lines[0], lines[1]);
-            Array.Reverse(lines);
+            MessageDialogBox(lines[1], lines[2]);
             LogMessages(lines, logFilePath);
         }
 
