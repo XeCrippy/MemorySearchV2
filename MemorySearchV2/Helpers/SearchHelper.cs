@@ -266,15 +266,16 @@ namespace MemorySearchV2.Helpers
                 splashScreenManager1.ShowWaitForm();
 
                 List<ListViewItem> itemsToAdd = new List<ListViewItem>();
-                List<ListViewItem> itemsToRemove = new List<ListViewItem>();
+                List<int> invalidIndices = new List<int>();
+                object lockObject = new object();
 
                 int searchSize;
                 byte[] searchValue = GetSearchParameters(dataType_, valBox, isHex, isLittleEndian, out searchSize);
 
                 int found = 0;
-
+                
                 string previousValue = resultList.Items[0].SubItems[1].Text;
-                Parallel.ForEach(searchResults, resultItem =>
+                Parallel.ForEach(searchResults, (resultItem, state, index) =>
                 {
                     uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
                     byte[] buffer = MainForm.xb.GetMemoryTest(address, (uint)searchSize);
@@ -284,7 +285,7 @@ namespace MemorySearchV2.Helpers
                         ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
                         lvi.SubItems.Add((string)valBox.Clone());
                         lvi.SubItems.Add(previousValue);
-                        lock (itemsToAdd)
+                        lock (lockObject)
                         {
                             itemsToAdd.Add(lvi);
                         }
@@ -292,13 +293,20 @@ namespace MemorySearchV2.Helpers
                     }
                     else
                     {
-                        // Remove invalid result from the list
-                        lock (itemsToAdd)
+                        lock (invalidIndices)
                         {
-                            itemsToAdd.Remove(resultItem);
+                            invalidIndices.Add((int)index);
                         }
                     }
                 });
+
+                lock (searchResults)
+                {
+                    foreach (int index in invalidIndices.OrderByDescending(i => i))
+                    {
+                        searchResults.RemoveAt(index);
+                    }
+                }
 
                 resultList.Items.Clear();
                 resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
@@ -347,9 +355,11 @@ namespace MemorySearchV2.Helpers
                 int found = 0;
                 
                 List<ListViewItem> itemsToAdd = new List<ListViewItem>();
+                List<int> invalidIndices = new List<int>();
+                object lockObject = new object();
                 string previousValue = resultList.Items[0].SubItems[1].Text;
 
-                Parallel.ForEach(searchResults, resultItem =>
+                Parallel.ForEach(searchResults, (resultItem, state, index) =>
                 {
                     uint address = uint.Parse(resultItem.Text.Replace("0x", ""), NumberStyles.HexNumber);
                     byte[] buffer = MainForm.xb.GetMemoryTest(address, (uint)searchSize);
@@ -360,18 +370,29 @@ namespace MemorySearchV2.Helpers
                         ListViewItem lvi = new ListViewItem("0x" + address.ToString("X8"));
                         lvi.SubItems.Add(convertedValue);
                         lvi.SubItems.Add(previousValue);
-                        itemsToAdd.Add(lvi);
+                        lock (lockObject)
+                        {
+                            itemsToAdd.Add(lvi);
+                        }
                         Interlocked.Increment(ref found);
                     }
                     else
                     {
                         // Remove invalid result from the list
-                        lock (itemsToAdd)
+                        lock (invalidIndices)
                         {
-                            itemsToAdd.Remove(resultItem);
+                            invalidIndices.Add((int)index);
                         }
                     }
                 });
+
+                lock (searchResults)
+                {
+                    foreach (int index in invalidIndices.OrderByDescending(i => i))
+                    {
+                        searchResults.RemoveAt(index);
+                    }
+                }
 
                 resultList.Items.Clear();
                 resultList.Items.AddRange(itemsToAdd.Take(resultsToDisplay).ToArray());
@@ -389,7 +410,7 @@ namespace MemorySearchV2.Helpers
 
                 stopwatch.Stop();
                 long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds, (uint)searchResults.Count);
+                ErrorHelper.DisplaySearchResultsMsg(found, elapsedMilliseconds, (uint)searchResults.Count * 4);
             }
             catch (Exception ex)
             {

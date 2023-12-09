@@ -262,6 +262,12 @@ namespace MemorySearchV2.Helpers
             console.DebugTarget.SetMemory(Address, (uint)Data.Length, Data, out BytesWritten);
         }
 
+        public static void ShutDownConsole(this IXboxConsole console)
+        {
+             string Command = "consolefeatures ver=" + (object)jrpcVersion + " type=11 params=\"A\\0\\A\\0\\\"";
+             SendCommand(console, Command);
+        }
+
         public static int UIntToInt(uint Value)
         {
             return BitConverter.ToInt32(BitConverter.GetBytes(Value), 0);

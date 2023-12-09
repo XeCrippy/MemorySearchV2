@@ -2,11 +2,8 @@
 using DevExpress.XtraEditors;
 using MemorySearchV2.ExtraForms;
 using MemorySearchV2.Helpers;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using XDevkit;
@@ -426,16 +423,6 @@ namespace MemorySearchV2
             try
             {
                 if (resultList.SelectedItems.Count == 0) return;
-                else if (resultList.SelectedItems.Count > 1)
-                {
-                    for (int i = 0; i < resultList.SelectedItems.Count; i++)
-                    {
-                        tableList.Items.Add(resultList.SelectedItems[i].Text);
-                        tableList.Items[i].SubItems.Add("");
-                        tableList.Items[i].SubItems.Add("");
-                        tableList.Items[i].SubItems.Add(resultList.SelectedItems[i].SubItems[1].Text);
-                    }
-                }
                 else if (dataType_.Text == "STRING") new AddEntryForm(resultList.SelectedItems[0].Text, "", valBox.Text, dataType_.Text).ShowDialog();
                 else
                     new AddEntryForm(resultList.SelectedItems[0].Text, "", resultList.SelectedItems[0].SubItems[1].Text, dataType_.Text).ShowDialog();
@@ -511,6 +498,20 @@ namespace MemorySearchV2
             {
                 ErrorHelper.Error(ex);
             }
+        }
+
+        private void RebootConsoleMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (activeConnection)
+                xb.Reboot(null, null, null, XboxRebootFlags.Cold);
+            else ErrorHelper.ConnectionError();
+        }
+
+        private void ShutdownConsoleMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (activeConnection)
+                xb.ShutDownConsole();
+            else ErrorHelper.ConnectionError();
         }
     }
 }

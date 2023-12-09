@@ -1,18 +1,15 @@
 ﻿using DevExpress.XtraEditors;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MemorySearchV2.Helpers
 {
     class CheatTableConversion
     {
-        class DataItem
+        class CheatTableTiem
         {
             public string Address { get; set; }
             public string Description { get; set; }
@@ -32,19 +29,22 @@ namespace MemorySearchV2.Helpers
             {
                 string jsonFilePath = ofd.FileName;
                 string json = File.ReadAllText(jsonFilePath);
-                List<DataItem> dataItems = JsonConvert.DeserializeObject<List<DataItem>>(json);
+                List<CheatTableTiem> dataItems = JsonConvert.DeserializeObject<List<CheatTableTiem>>(json);
 
                 if (!Directory.Exists("Converted Classes"))
                 {
                     Directory.CreateDirectory("Converted Classes");
                 }
-                string outputPath = "Converted Classes\\" + ofd.SafeFileName.Replace("xct", "cs");
+                string outputPath = "Converted Classes\\" + ofd.SafeFileName.Replace(".xct", "Helper.cs");
                 using (StreamWriter writer = new StreamWriter(outputPath))
                 {
+                    writer.WriteLine("public class " + ofd.SafeFileName.Replace(".xct", "Helper"));
+                    writer.WriteLine("{");
                     foreach (var item in dataItems)
                     {
                         writer.WriteLine($"public const uint {SanitizePropertyName(item.Description)} = {item.Address};");
                     }
+                    writer.WriteLine("}");
                 }
                 ErrorHelper.MessageDialogBox($"C# class constants written to: {outputPath}", "File Converter");
             }
