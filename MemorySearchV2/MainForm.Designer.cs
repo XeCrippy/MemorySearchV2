@@ -58,6 +58,8 @@ namespace MemorySearchV2
             this.LoadCheatTableMenuItem = new DevExpress.XtraBars.BarButtonItem();
             this.ConsoleInfoMenuItem = new DevExpress.XtraBars.BarButtonItem();
             this.CheatTableConverter = new DevExpress.XtraBars.BarButtonItem();
+            this.RebootConsoleMenuItem = new DevExpress.XtraBars.BarButtonItem();
+            this.ShutdownConsoleMenuItem = new DevExpress.XtraBars.BarButtonItem();
             this.ConnectButton = new DevExpress.XtraBars.BarButtonItem();
             this.AddToTableButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.ChangeValueButtonItem = new DevExpress.XtraBars.BarButtonItem();
@@ -123,8 +125,6 @@ namespace MemorySearchV2
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
             this.ChunkSizeEdit = new DevExpress.XtraEditors.SpinEdit();
-            this.RebootConsoleMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.ShutdownConsoleMenuItem = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AppMenuPopup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultListMenu)).BeginInit();
@@ -236,6 +236,22 @@ namespace MemorySearchV2
             this.CheatTableConverter.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("CheatTableConverter.ImageOptions.SvgImage")));
             this.CheatTableConverter.Name = "CheatTableConverter";
             this.CheatTableConverter.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.CheatTableConverter_ItemClick);
+            // 
+            // RebootConsoleMenuItem
+            // 
+            this.RebootConsoleMenuItem.Caption = "Reboot Console";
+            this.RebootConsoleMenuItem.Id = 23;
+            this.RebootConsoleMenuItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("RebootConsoleMenuItem.ImageOptions.SvgImage")));
+            this.RebootConsoleMenuItem.Name = "RebootConsoleMenuItem";
+            this.RebootConsoleMenuItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.RebootConsoleMenuItem_ItemClick);
+            // 
+            // ShutdownConsoleMenuItem
+            // 
+            this.ShutdownConsoleMenuItem.Caption = "Shutdown Console";
+            this.ShutdownConsoleMenuItem.Id = 24;
+            this.ShutdownConsoleMenuItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ShutdownConsoleMenuItem.ImageOptions.SvgImage")));
+            this.ShutdownConsoleMenuItem.Name = "ShutdownConsoleMenuItem";
+            this.ShutdownConsoleMenuItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ShutdownConsoleMenuItem_ItemClick);
             // 
             // ConnectButton
             // 
@@ -920,22 +936,6 @@ namespace MemorySearchV2
             superToolTip7.Items.Add(toolTipTitleItem9);
             this.ChunkSizeEdit.SuperTip = superToolTip7;
             this.ChunkSizeEdit.TabIndex = 44;
-            // 
-            // RebootConsoleMenuItem
-            // 
-            this.RebootConsoleMenuItem.Caption = "Reboot Console";
-            this.RebootConsoleMenuItem.Id = 23;
-            this.RebootConsoleMenuItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("RebootConsoleMenuItem.ImageOptions.SvgImage")));
-            this.RebootConsoleMenuItem.Name = "RebootConsoleMenuItem";
-            this.RebootConsoleMenuItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.RebootConsoleMenuItem_ItemClick);
-            // 
-            // ShutdownConsoleMenuItem
-            // 
-            this.ShutdownConsoleMenuItem.Caption = "Shutdown Console";
-            this.ShutdownConsoleMenuItem.Id = 24;
-            this.ShutdownConsoleMenuItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ShutdownConsoleMenuItem.ImageOptions.SvgImage")));
-            this.ShutdownConsoleMenuItem.Name = "ShutdownConsoleMenuItem";
-            this.ShutdownConsoleMenuItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ShutdownConsoleMenuItem_ItemClick);
             // 
             // MainForm
             // 

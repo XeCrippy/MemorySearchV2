@@ -3,17 +3,47 @@
     "Address": "0x8222ED60",
     "Description": "Instant classic mode unlocks (change to 0x394A003C)",
     "Type": "ASSEMBLY",
-    "Value": "394A000A"
+    "Value": "394A0001"
   },
   {
     "Address": "0xB147558C",
-    "Description": "score",
+    "Description": "current score",
     "Type": "UINT",
     "Value": "0"
   },
   {
-    "Address": "0xB3F5FAA0",
+    "Address": "0xB3F5F758",
+    "Description": "highest score - chicago",
+    "Type": "UINT",
+    "Value": "130100"
+  },
+  {
+    "Address": "0xB3F5F800",
+    "Description": "highest score - minneapolis",
+    "Type": "UINT",
+    "Value": "150022580"
+  },
+  {
+    "Address": "0xB3F5F8A8",
     "Description": "",
+    "Type": "UINT",
+    "Value": "5001961"
+  },
+  {
+    "Address": "0xB3F5F8B8",
+    "Description": "",
+    "Type": "UINT",
+    "Value": "5001961"
+  },
+  {
+    "Address": "0xB3F5F950",
+    "Description": "highest score - the mall",
+    "Type": "UINT",
+    "Value": "301320"
+  },
+  {
+    "Address": "0xB3F5FAA0",
+    "Description": "highest score - santa cruz",
     "Type": "UINT",
     "Value": "450150"
   },
@@ -30,6 +60,12 @@
     "Value": "10"
   },
   {
+    "Address": "0xB4392A6C",
+    "Description": "goals - kyoto",
+    "Type": "UINT",
+    "Value": "30"
+  },
+  {
     "Address": "0xB4392A70",
     "Description": "goals - mall",
     "Type": "UINT",
@@ -42,9 +78,21 @@
     "Value": "9"
   },
   {
+    "Address": "0xB4392A80",
+    "Description": "goals - the ruins",
+    "Type": "UINT",
+    "Value": "11"
+  },
+  {
+    "Address": "0xB4392ADC",
+    "Description": "story mode - cash",
+    "Type": "UINT",
+    "Value": "1342"
+  },
+  {
     "Address": "0xB4392B18",
     "Description": "high combo 2",
     "Type": "UINT",
-    "Value": "10000"
+    "Value": "13710"
   }
 ]

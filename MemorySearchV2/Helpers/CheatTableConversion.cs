@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraEditors;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace MemorySearchV2.Helpers
 {
     class CheatTableConversion
     {
-        class CheatTableTiem
+        class CheatTableItem
         {
             public string Address { get; set; }
             public string Description { get; set; }
@@ -22,27 +23,38 @@ namespace MemorySearchV2.Helpers
             XtraOpenFileDialog ofd = new XtraOpenFileDialog
             {
                 Title = "Load Xbox 360 Cheat Table",
-                Filter = "Xbox 360 Cheat Table (.xct)|*.xct"
+                Filter = "Xbox 360 Cheat Table (.xct)|*.xct | Json File (.json)|*.json",
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string jsonFilePath = ofd.FileName;
                 string json = File.ReadAllText(jsonFilePath);
-                List<CheatTableTiem> dataItems = JsonConvert.DeserializeObject<List<CheatTableTiem>>(json);
+                string outputPath = "";
+                List<CheatTableItem> dataItems = JsonConvert.DeserializeObject<List<CheatTableItem>>(json);
 
-                if (!Directory.Exists("Converted Classes"))
+                if (!Directory.Exists(Application.StartupPath + "\\Converted Classes"))
                 {
-                    Directory.CreateDirectory("Converted Classes");
+                    Directory.CreateDirectory(Application.StartupPath + "\\Converted Classes");
                 }
-                string outputPath = "Converted Classes\\" + ofd.SafeFileName.Replace(".xct", "Helper.cs");
+
+                if (ofd.SafeFileName.Contains(".xct"))
+                    outputPath = Application.StartupPath +  "\\Converted Classes\\" + ofd.SafeFileName.Replace(".xct", "Helper.cs");
+                else if (ofd.SafeFileName.Contains(".json"))
+                    outputPath = Application.StartupPath + "\\Converted Classes\\" + ofd.SafeFileName.Replace(".json", "Helper.cs");
+
                 using (StreamWriter writer = new StreamWriter(outputPath))
                 {
                     writer.WriteLine("public class " + ofd.SafeFileName.Replace(".xct", "Helper"));
                     writer.WriteLine("{");
+                    int i = 0;
                     foreach (var item in dataItems)
                     {
-                        writer.WriteLine($"public const uint {SanitizePropertyName(item.Description)} = {item.Address};");
+                        if (string.IsNullOrWhiteSpace(item.Description))
+                        {
+                            item.Description = "result_" + i++.ToString();
+                        }
+                        writer.WriteLine($"      public const uint {SanitizePropertyName(item.Description)} = {item.Address};");
                     }
                     writer.WriteLine("}");
                 }
