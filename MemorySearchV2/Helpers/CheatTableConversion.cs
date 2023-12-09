@@ -34,6 +34,10 @@ namespace MemorySearchV2.Helpers
                 string json = File.ReadAllText(jsonFilePath);
                 List<DataItem> dataItems = JsonConvert.DeserializeObject<List<DataItem>>(json);
 
+                if (!Directory.Exists("Converted Classes"))
+                {
+                    Directory.CreateDirectory("Converted Classes");
+                }
                 string outputPath = "Converted Classes\\" + ofd.SafeFileName.Replace("xct", "cs");
                 using (StreamWriter writer = new StreamWriter(outputPath))
                 {
