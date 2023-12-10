@@ -502,16 +502,26 @@ namespace MemorySearchV2
 
         private void RebootConsoleMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (activeConnection)
-                xb.Reboot(null, null, null, XboxRebootFlags.Cold);
-            else ErrorHelper.ConnectionError();
+            DialogResult result = XtraMessageBox.Show("Are you sure you want to reboot?", "Reboot Console", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (activeConnection)
+                    xb.Reboot(null, null, null, XboxRebootFlags.Cold);
+                else ErrorHelper.ConnectionError();
+            }
         }
 
         private void ShutdownConsoleMenuItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (activeConnection)
-                xb.ShutDownConsole();
-            else ErrorHelper.ConnectionError();
+            DialogResult result = XtraMessageBox.Show("Are you sure you want to shut console down?", "Shutdown Console", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (activeConnection)
+                    xb.ShutDownConsole();
+                else ErrorHelper.ConnectionError();
+            }
         }
     }
 }

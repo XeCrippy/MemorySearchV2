@@ -81,6 +81,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassConverterExamples\resultsHelper.cs" />
+    <Compile Include="ClassConverterExamples\TonyHawkAmericanWastelandHelper.cs" />
     <Compile Include="ExtraForms\AddEntryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,12 +94,6 @@
     </Compile>
     <Compile Include="ExtraForms\ChangeValueForm.Designer.cs">
       <DependentUpon>ChangeValueForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ExtraForms\CheatTableConverter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExtraForms\CheatTableConverter.Designer.cs">
-      <DependentUpon>CheatTableConverter.cs</DependentUpon>
     </Compile>
     <Compile Include="ExtraForms\ConsoleInfo.cs">
       <SubType>Form</SubType>
@@ -131,9 +127,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraForms\ChangeValueForm.resx">
       <DependentUpon>ChangeValueForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExtraForms\CheatTableConverter.resx">
-      <DependentUpon>CheatTableConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraForms\ConsoleInfo.resx">
       <DependentUpon>ConsoleInfo.cs</DependentUpon>
@@ -174,6 +167,7 @@
     <None Include="CheatTables\PaperBoyXBLA.xct" />
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

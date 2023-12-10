@@ -5,19 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static MemorySearchV2.Helpers.ListViewHelper;
 
 namespace MemorySearchV2.Helpers
 {
-    class CheatTableConversion
+    public class CheatTableConversion
     {
-        class CheatTableItem
-        {
-            public string Address { get; set; }
-            public string Description { get; set; }
-            public string Type { get; set; }
-            public string Value { get; set; }
-        }
-
         public void ConvertTableToCsClass()
         {
             XtraOpenFileDialog ofd = new XtraOpenFileDialog
@@ -31,7 +24,7 @@ namespace MemorySearchV2.Helpers
                 string jsonFilePath = ofd.FileName;
                 string json = File.ReadAllText(jsonFilePath);
                 string outputPath = "";
-                List<CheatTableItem> dataItems = JsonConvert.DeserializeObject<List<CheatTableItem>>(json);
+                List<CheatEntry> dataItems = JsonConvert.DeserializeObject<List<CheatEntry>>(json);
 
                 if (!Directory.Exists(Application.StartupPath + "\\Converted Classes"))
                 {
@@ -45,7 +38,7 @@ namespace MemorySearchV2.Helpers
 
                 using (StreamWriter writer = new StreamWriter(outputPath))
                 {
-                    writer.WriteLine("public class " + ofd.SafeFileName.Replace(".xct", "Helper"));
+                    writer.WriteLine("public class " + ofd.SafeFileName.Replace(".xct", "Helper").Replace(".json", "Helper"));
                     writer.WriteLine("{");
                     int i = 0;
                     foreach (var item in dataItems)
@@ -54,7 +47,7 @@ namespace MemorySearchV2.Helpers
                         {
                             item.Description = "result_" + i++.ToString();
                         }
-                        writer.WriteLine($"      public const uint {SanitizePropertyName(item.Description)} = {item.Address};");
+                        writer.WriteLine($"    public const uint {SanitizePropertyName(item.Description)} = {item.Address};");
                     }
                     writer.WriteLine("}");
                 }
